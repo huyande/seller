@@ -27,7 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor{
                              Object o) throws Exception {
 
         if (localUserHolder.getLocalUser() == null) {
-            // 引导到登陆页面(Method.get)，并保存跳转链接地址
+            // 引导到登陆页面(Method.get)，并保存请求之前的跳转链接地址
             httpServletResponse.sendRedirect("/login?returnUrl="+httpServletRequest.getRequestURI());
             return false;
         }

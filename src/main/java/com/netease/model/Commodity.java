@@ -12,7 +12,7 @@ public class Commodity {
     private String comCode;
     private String title;
     private String comAbstract; // the SQL column is commodity.abstract
-    private float perPrice;
+    private double perPrice;
     private String detail;
     private String picURI;
     private int picType;
@@ -72,11 +72,11 @@ public class Commodity {
         this.comAbstract = comAbstract;
     }
 
-    public float getPerPrice() {
+    public double getPerPrice() {
         return perPrice;
     }
 
-    public void setPerPrice(float perPrice) {
+    public void setPerPrice(double perPrice) {
         this.perPrice = perPrice;
     }
 

@@ -1,5 +1,7 @@
 package com.netease.utils;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -77,10 +79,10 @@ public class StringAndFileUtils {
     }
 
     //检查float
-    public static boolean isFloat(String floatStr) {
+    public static boolean isDouble(String floatStr) {
         boolean isLegal = true;
         try {
-            Float.valueOf(floatStr);
+            Double.valueOf(floatStr);
         } catch (NumberFormatException e) {
             isLegal = false;
         }
@@ -90,10 +92,22 @@ public class StringAndFileUtils {
     //检查图片文件格式
     public static boolean isLegalPicFileType(String fileType) {
         for (int i = 0; i < PIC_FORMAT.length; i++) {
-            if (fileType.equals(PIC_FORMAT[i])){
+            if (fileType.equals(PIC_FORMAT[i])) {
                 return true;
             }
         }
         return false;
+    }
+
+    // 浮点数据截断
+    public static double dataRruncation(double data) {
+        BigDecimal b = new BigDecimal(data);
+        return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+
+    // 浮点数据类型显示
+    public static String dataShow(double data) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        return df.format(data);
     }
 }

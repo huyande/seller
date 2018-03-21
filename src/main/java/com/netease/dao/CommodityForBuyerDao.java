@@ -15,6 +15,7 @@ import java.util.List;
 @Mapper
 public interface CommodityForBuyerDao {
 
+
     //----------------------------------------------------
     // commodity和orders联表查询部分 返回列表默认排序按照发布时间排序
     //----------------------------------------------------
@@ -23,4 +24,8 @@ public interface CommodityForBuyerDao {
     List<CommodityForBuyer> getAllCommodityListWithTypeOfPurchased(int buyerId);
     // 返回所有该用户没有购买的商品，不用还有标识
     List<Commodity> getCommodityListWithTypeOfUnPurchased(int buyerId);
+
+    // 根据buyerId和commodityId来获取商品，包含是否购买的信息
+
+    CommodityForBuyer getCommodityByBuyerIdAndCommId(int buyerId, int commodityId);
 }

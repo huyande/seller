@@ -1,9 +1,7 @@
 package com.netease.dao;
 
 import com.netease.model.Commodity;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,27 +16,20 @@ public interface CommodityDao {
 
     String TABLE_NAME = "commodity ";
     String INSERT_FIELDS = "com_code,title,abstract,per_price,detail," +
-            "pic_uri,pic_type,publisher_id,pub_time,storage_amount,sold_quantity,pub_status ";
+            "pic_uri,pic_type,publisher_id,pub_time,storage_amount,pub_status ";
     String SELECT_FIELDS = "id," + INSERT_FIELDS;
 
-
     @Results({
-            @Result(property = "id", column = "id"),
-            @Result(property = "comCode", column = "com_code"),
-            @Result(property = "title", column = "title"),
-            @Result(property = "abstract", column = "abstract"),
-            @Result(property = "perPrice", column = "per_price"),
-            @Result(property = "detail", column = "detail"),
-            @Result(property = "picURI", column = "pic_uri"),//不一致
-            @Result(property = "picType", column = "pic_type"),
-            @Result(property = "publisherId", column = "publisher_id"),
-            @Result(property = "pubTime", column = "pub_time"),
-            @Result(property = "storageAmount", column = "storage_amount"),
-            @Result(property = "soldQuantity", column = "sold_quantity"),
-            @Result(property = "pubStatus", column = "pub_status")
+          @Result(property = "comAbstract", column = "abstract"),//不一致
+            // 经过测试并不仅仅按照驼峰映射而是根据分割符格式化后匹配，下面可不显示映射
+          @Result(property = "picURI", column = "pic_uri")//不一致
     })
 
-        // 添加商品
+    // 添加商品
+    @Insert({"insert into ",TABLE_NAME,"(",INSERT_FIELDS,
+            ") values (#{comCode},#{title},#{comAbstract},#{perPrice},#{detail}," +
+                    "#{picURI},#{picType},#{publisherId},#{pubTime}," +
+                    "#{storageAmount},#{pubStatus})"})
     int addCommodity(Commodity commodity);
 
     // 获取所有商品列表，并按照发布时间排序
@@ -46,7 +37,9 @@ public interface CommodityDao {
 
 
     // 按照商品ID获取
-    Commodity getCommodityById(int id);
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
+            " where id=#{id}"})
+    Commodity getCommodityById(@Param("id") int id);
 
     // 按照发布商家id获取商品，并按照发布日期排序
     List<Commodity> getCommodityByPubId(int publisherId);
@@ -56,7 +49,10 @@ public interface CommodityDao {
     int deleteCommodityById(int id);
 
     // 根据pubID和comCode来查询刚刚添加的商品
-    Commodity getAddedCommodityByPubIdAndComCode(int publisherId, String comCode);
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
+            " where publisher_id=#{publisherId} and com_code=#{comCode}"})
+    Commodity getAddedCommodityByPubIdAndComCode(@Param("publisherId") int publisherId,
+                                                 @Param("comCode") String comCode);
 
     // 更新商品内容
     int updateCommodity(Commodity commodity);

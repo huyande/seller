@@ -1,7 +1,11 @@
 package com.netease.service;
 
 import com.netease.dao.CommodityDao;
+import com.netease.dao.CommodityForBuyerDao;
 import com.netease.model.Commodity;
+import com.netease.model.CommodityForBuyer;
+import com.netease.model.PerRequestUserHolder;
+import com.netease.model.User;
 import com.netease.utils.CodeGeneUtils;
 import com.netease.utils.StringAndFileUtils;
 import org.slf4j.Logger;
@@ -28,6 +32,13 @@ public class CommodityService {
 
     @Autowired
     private CommodityDao commodityDao;
+
+    @Autowired
+    private CommodityForBuyerDao commodityForBuyerDao;
+
+    @Autowired
+    PerRequestUserHolder localUserHoler;
+
 
     @Value(("${PIC_MAX_SIZE}"))
     private long PIC_MAX_SIZE;
@@ -58,6 +69,10 @@ public class CommodityService {
             // 判断刚才插入的数据是否存在
             if (addedCommodity != null) {
                 message.put("addedCommodityId", addedCommodity.getId());
+
+                //TODO: ComAbstract 内容无法显示
+                logger.warn(addedCommodity.getComAbstract());
+                logger.warn(addedCommodity.getDetail());
             }
         }
         return message;
@@ -75,8 +90,32 @@ public class CommodityService {
     }
 
     // 根据id获取商品
-    public Commodity showCommodityInfo(int commodityId) {
-        return commodityDao.getCommodityById(commodityId);
+    public Map<String,Object> showCommodityInfo(int commodityId) {
+        Map<String,Object> message = new HashMap<String,Object>() ;
+
+        User localUser = localUserHoler.getLocalUser();
+        // 0:消费者 1:商家 2:未登录
+        int userType = 2;
+        boolean isPurchased = false;
+        if (localUser != null) {
+            userType = localUser.getType();
+        }
+
+
+        // 0-消费用户
+        if (userType == 0) {
+            CommodityForBuyer commodityForBuyer =
+                    commodityForBuyerDao.getCommodityByBuyerIdAndCommId(localUser.getId(), commodityId);
+           message.put("commodity", commodityForBuyer);
+            return message;
+        }
+
+        // 1-商家 2-未登录用户
+        else {
+            Commodity commodity = commodityDao.getCommodityById(commodityId);
+            message.put("commodities", commodity);
+            return message;
+        }
     }
 
     // 上传图片文件

@@ -5,22 +5,23 @@
 	}
 	var userName = loginForm['userName'];
 	var password = loginForm['password'];
+	var rememberMe = loginForm['rememberMe'];
 	var isSubmiting = false;
 	var loading = new Loading();
 	var page = {
 		init:function(){
 			loginForm.addEventListener('submit',function(e){
 				if(!isSubmiting && this.check()){
-					var value1 = userName.value;
-					var value2 = md5(password.value);
+					var value1 = userName.value; // 没有MD5加密
+					//var value2 = md5(password.value);
+                    var value2 = password.value;
 					isSubmiting = true;
 					loading.show();
 					ajax({
-						data:{userName:value1,password:value2},
+						data:{userName:value1,password:value2,rememberMe:rememberMe},
 						url:'/api/login',
 						success:function(result){
 							loading.hide();
-							location.href = '/';
 						},
 						error:function(message){
 							loading.result(message||'登录失败');

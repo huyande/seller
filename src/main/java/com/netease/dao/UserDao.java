@@ -25,7 +25,7 @@ public interface UserDao {
 
     // 方式二：将参数对象的参数与user表的列进行映射
     @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS,
-            ") values (#{name},#{password},#{type}}"})
+            ") values (#{name},#{password},#{type})"})
     int addUser(User user);
 
     // 方式三：使用@Param注解 注解的内的字符"id"与列名一致，参数名称(int id)不限

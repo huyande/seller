@@ -17,6 +17,13 @@
             <input class="u-ipt" type="password" name="password"/>
         </div>
     </div>
+    <div class="fmitem">
+        <label class="fmlab">记住我：</label>
+        <div class="fmipt">
+            <input name="rememberMe" type="radio" value="true" checked /> 三天免登录
+            <input name="rememberMe" type="radio" value="false"/> 不记住
+        </div>
+    </div>
     <div class="fmitem fmitem-nolab fmitem-btn">
         <div class="fmipt">
             <button type="submit" class="u-btn u-btn-primary u-btn-lg u-btn-block">登 录</button>

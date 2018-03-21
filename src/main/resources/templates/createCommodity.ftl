@@ -9,7 +9,7 @@
         <h2>内容发布</h2>
     </div>
     <div class="n-public">
-        <form class="m-form m-form-ht" id="form" method="post" action="/publicSubmit" onsubmit="return false;" autocomplete="off">
+        <form class="m-form m-form-ht" id="form" method="post" action="/commodity/api/add" onsubmit="return false;" autocomplete="off">
             <div class="fmitem">
                 <label class="fmlab">标题：</label>
                 <div class="fmipt">
@@ -24,8 +24,19 @@
             </div>
             <div class="fmitem">
                 <label class="fmlab">图片：</label>
-                <div class="fmipt">
-                    <input class="u-ipt ipt" name="image" placeholder="图片地址"/>
+                <div class="fmipt" id="uploadType">
+                    <input name="pic" type="radio" value="url" checked /> 图片地址
+                    <input name="pic" type="radio" value="file" /> 本地上传
+                </div>
+            </div>
+            <div class="fmitem">
+                <label class="fmlab"></label>
+                <div class="fmipt" id="urlUpload">
+                    <input class="u-ipt ipt"  name="image" placeholder="图片地址"/>
+                </div>
+                <div class="fmipt" id="fileUpload"  style="display:none">
+                    <input class="u-ipt ipt" name="file" type="file" id="fileUp"/>
+                    <button class="u-btn u-btn-primary" id="upload">上传</button>
                 </div>
             </div>
             <div class="fmitem">

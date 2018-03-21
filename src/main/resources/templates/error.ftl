@@ -5,10 +5,10 @@
 <#include "/include/support.ftl">
 <#include "/include/header.ftl">
 <div class="g-doc">
-    <#if errorMessage>
+    <#if errorMessage?exists>
     <div class="n-result">
         <h3>服务器可能开了个差！</h3>
-        <p>errorMessage:${errorMessage}</p>
+        <p>${errorMessage}</p>
     </div>
     </#if>
 </div>

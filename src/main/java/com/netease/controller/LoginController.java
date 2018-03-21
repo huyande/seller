@@ -30,22 +30,22 @@ public class LoginController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(path = {"/login"}, method = {RequestMethod.POST})
+    @RequestMapping(path = {"/api/login"}, method = {RequestMethod.POST})
     public String login(Model model, @RequestParam("userName") String userName,
                         @RequestParam("password") String password,
                         @RequestParam(value = "returnUrl", required = false) String returnUrl,
-                        @RequestParam(value = "rememberMe", defaultValue = "false") boolean rememberMe,
+                        @RequestParam(value = "rememberMe", defaultValue = "true") String rememberMe,
                         HttpServletResponse response) {
-
         try {
-            Map<String, Object> message = userService.login(userName.trim(), password.trim());
+            Map<String, Object> message = userService.login(userName, password);
             // 含有ticket
             if (message.containsKey("ticket")) {
                 // 设置cookie
                 Cookie cookie = new Cookie("ticket", (String) message.get("ticket"));
                 cookie.setPath("/");
 
-                if (rememberMe) {
+                // 设置cookie时效，默认为临时时效
+                if (rememberMe.equals("true")) {
                     cookie.setMaxAge(3600 * 24 * COOKIE_AGE);
                 }
                 response.addCookie(cookie);
@@ -66,7 +66,7 @@ public class LoginController {
         }
     }
 
-    @RequestMapping(path = {"/logout"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(path = {"/api/logout"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String logout(@CookieValue("ticket") String ticket) {
         userService.logout(ticket);
         return "redirect:/";
@@ -78,5 +78,11 @@ public class LoginController {
     public String error(Model model, Exception e) {
         model.addAttribute("errorMessage", "Inner Error: " + e.getMessage());
         return "error";
+    }
+
+    // 登录页(只有未登录用户可见)
+    @RequestMapping(path = {"/page/login"}, method = {RequestMethod.GET})
+    public String getLogin() {
+        return "login";
     }
 }

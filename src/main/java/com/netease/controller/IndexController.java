@@ -11,8 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * @author zhanglbjames@163.com
  * @version Created on 18-3-20.
@@ -63,7 +61,7 @@ public class IndexController {
 
 
     // 未购买商品列表 在拦截器里对登录状态和类型进行验证
-    @RequestMapping(value = {"/notbuy"}, method = {RequestMethod.GET})
+    @RequestMapping(value = {"/page/notbuy"}, method = {RequestMethod.GET})
     public String showUnBuyCommodity(Model model) {
 
         User localUser = localUserHolder.getLocalUser();
