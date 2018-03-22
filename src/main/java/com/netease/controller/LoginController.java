@@ -30,6 +30,7 @@ public class LoginController {
     @Autowired
     UserService userService;
 
+    @ResponseBody
     @RequestMapping(path = {"/api/login"}, method = {RequestMethod.POST})
     public String login(Model model, @RequestParam("userName") String userName,
                         @RequestParam("password") String password,

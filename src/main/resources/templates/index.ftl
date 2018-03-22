@@ -8,19 +8,19 @@
     <div class="m-tab m-tab-fw m-tab-simple f-cb">
         <div class="tab">
             <ul>
-                <li <#if !showType || showType != 1>class="z-sel"</#if> ><a href="/">所有内容</a></li>
-                <#if !user && user.type == 0><li <#if showType == 1>class="z-sel"</#if> ><a href="/page/notbuy">未购买的内容</a></li></#if>
+                <li <#if !showType?exists || showType == 1>class="z-sel"</#if> ><a href="/">所有内容</a></li>
+                <#if user?exists && user.type == 0><li <#if showType == 1>class="z-sel"</#if> ><a href="/page/notbuy">未购买的内容</a></li></#if>
             </ul>
         </div>
     </div>
-    <#if !commodities || !commodities?has_content>
+    <#if !commodities?exists || !commodities?has_content>
     <div class="n-result">
         <h3>暂无内容！</h3>
     </div>
     <#else>
     <div class="n-plist">
         <ul class="f-cb" id="plist">
-        <#if user && user.type == 0 && showType == 1>
+        <#if user?exists && user.type == 0 && showType == 1>
             <#list commodities as x>
                 <#if x.purchasedQuantity == 0>
                 <li id="p-${x.id}">

@@ -9,7 +9,7 @@
     <div class="m-tab m-tab-fw m-tab-simple f-cb">
         <h2>已购买的内容</h2>
     </div>
-    <#if !ordersList || !ordersList?has_content>
+    <#if !ordersList?exists || !ordersList?has_content>
     <div class="n-result">
         <h3>暂无内容！</h3>
     </div>
