@@ -6,7 +6,6 @@ import com.netease.dao.OrdersDao;
 import com.netease.model.Commodity;
 import com.netease.model.JsonSimpleOrder;
 import com.netease.model.Orders;
-import com.netease.model.PerRequestUserHolder;
 import com.netease.utils.CodeGeneUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,13 +69,18 @@ public class OrdersService {
 
     /**
      * 结算购物车
+     *
+     * 把购物车里所有的订单放在一个事务里，如果发生可知订单不可支付的情况
+     * 则记录下来详细的信息，然后继续执行可支付的订单，最后把支付失败的订单
+     * 返回到错误详情页显示
+     *
      * TODO事务:
-     * 显然如果在购物车里对购买数量进行修改，那么为了数据一致性也要
-     * 开启事务
+     * 显然如果在购物车里对购买数量进行修改，那么为了数据一致性也要开启事务
      *
      * @param userId 购买者ID
      * @param ordersListJson 订单列表<id,number>
      */
+    @SuppressWarnings("unchecked")
     @Transactional(propagation = Propagation.REQUIRED,
             isolation = Isolation.REPEATABLE_READ,
             timeout = 120,rollbackFor = Exception.class)
@@ -101,20 +105,33 @@ public class OrdersService {
                 if (!message.containsKey("error")) {
                     message.put("error", new ArrayList<String>());
                 }
-                message.get("error");
-//                put("error", "无法购买:购买数量为0或者负数||没有这个商品||库存不足");
-                return message;
+
+
+                ArrayList<String> errorList = (ArrayList<String>) message.get("error");
+                errorList.add("购买数量【" + orders.getPurchasedQuantity() + "】"
+                        + "商品名【" + (commodity != null ? commodity.getTitle() : "无") + "】"
+                        + "商品编码【" + (commodity != null ? commodity.getComCode() : "无") + "】"
+                        + "库存【" + (commodity != null ? commodity.getStorageAmount() : "无") + "】");
+                break;
             }
             // 订单支付完成，支付状态为2
+            commodityDao.updateCommodityOrders(orders.getPurchasedQuantity(), commodity.getId());
             ordersDao.updateStatusAndPayTimeById(userId,2, new Date());
         }
         return message;
     }
 
     /**
-     * 购物车的内容
+     * 购物车的内容（未支付的订单）
      */
-    public List<Orders> getOrdersList(int userId) {
-        return ordersDao.getOrdersListByCreatorId(userId);
+    public List<Orders> getUnPayOrdersList(int userId) {
+        return ordersDao.getUnPayOrdersListByCreatorId(userId);
+    }
+
+    /**
+     * 账务-已经支付的订单
+     */
+    public List<Orders> getPayedOrdersList(int userId) {
+        return ordersDao.getPayedOrdersListByCreatorId(userId);
     }
 }

@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.lang.model.element.NestingKind;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,13 +61,13 @@ public class OrdersController {
 
     /**
      * 显示购物车的内容
-     *
+     * <p>
      * 为了配合前端，把数据放在cookie里
      */
     @RequestMapping(value = {"page/shoppingcar"}, method = {RequestMethod.POST, RequestMethod.GET})
     public String shoppingCarPage(Model model, HttpServletResponse response) {
         User user = perRequestUserHolder.getLocalUser();
-        List<Orders> ordersList = ordersService.getOrdersList(user.getId());
+        List<Orders> ordersList = ordersService.getUnPayOrdersList(user.getId());
 
         Cookie cookie = new Cookie("products", JSON.toJSONString(ordersList));
         cookie.setPath("/");
@@ -77,13 +79,35 @@ public class OrdersController {
     /**
      * 结算购物车
      */
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = {"api/pay"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String payMoney(Model model,
                            @RequestBody String jsonData) {
 
         User user = perRequestUserHolder.getLocalUser();
 
-        ordersService.payMoney(user.getId(), jsonData);
+        Map<String, Object> message = ordersService.payMoney(user.getId(), jsonData);
+        if (message.containsKey("error")) {
+            ArrayList<String> errorList = (ArrayList<String>) message.get("error");
+            StringBuilder errorMessage = new StringBuilder("没有完成的订单：\n");
+            for (String error : errorList) {
+                errorMessage.append(error);
+                errorMessage.append("\n");
+            }
+            model.addAttribute("errorMessage", errorMessage.toString());
+            return "error";
+        }
         return "redirect:/orders/page/shoppingcar";
+    }
+
+    /**
+     * 账务-已购买的商品列表
+     */
+    @RequestMapping(value = {"/page/purchased"}, method = {RequestMethod.GET})
+    public String purchasedPage(Model model) {
+        User user = perRequestUserHolder.getLocalUser();
+        List<Orders> ordersList = ordersService.getPayedOrdersList(user.getId());
+        model.addAttribute("ordersList", ordersList);
+        return "ordersShow";
     }
 }

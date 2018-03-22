@@ -33,13 +33,20 @@ public interface OrdersDao {
     int addOrders(Orders orders);
 
     /**
-     * 按照用户ID获取订单列表,按照支付时间排序
+     * 按照用户ID获取未支付订单列表,按照支付时间排序（购物车）
      */
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
-            " where creator_id=#{creatorId} " +
+            " where creator_id=#{creatorId} and pay_status=0" +
                     "order by pay_time"})
-    List<Orders> getOrdersListByCreatorId(@Param("creatorId") int creatorId);
+    List<Orders> getUnPayOrdersListByCreatorId(@Param("creatorId") int creatorId);
 
+    /**
+     * 按照用户ID获取已支付订单列表,按照支付时间排序（购物车）
+     */
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
+            " where creator_id=#{creatorId} and pay_status=2" +
+                    "order by pay_time"})
+    List<Orders> getPayedOrdersListByCreatorId(@Param("creatorId") int creatorId);
     /**
      * 按照订单id获取
      */
