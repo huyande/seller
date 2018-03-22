@@ -1,6 +1,7 @@
 target/
-.mvn/
-mvnw*
+.mvn
+mvnw
+mvnw.cmd
 
 
 
