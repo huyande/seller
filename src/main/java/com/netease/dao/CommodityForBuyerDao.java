@@ -22,12 +22,12 @@ public interface CommodityForBuyerDao {
     /**
      * 返回所有已发布商品，含有该用户购买的数量
      */
-    @Select("select c.*,o.purchased_quantity from " +
+    @Select("select c.*,o.purchased_quantity,o.per_price_snapshot from " +
             "(select * from commodity where pub_status=1) c " +
             "left join " +
             "(select * from orders where creator_id = #{buyerId}) o  " +
             "on c.id =  o.com_id " +
-            "order by c.pub_time")
+            "order by c.pub_time desc")
     List<CommodityForBuyer> getAllCommodityListWithTypeOfPurchased(int buyerId);
 
     /**
@@ -39,14 +39,14 @@ public interface CommodityForBuyerDao {
             "(select * from orders where creator_id = #{buyerId}) o  " +
             "on c.id =  o.com_id " +
             "where o.purchased_quantity=0 " +
-            "order by c.pub_time")
+            "order by c.pub_time desc")
     List<Commodity> getCommodityListWithTypeOfUnPurchased(int buyerId);
 
     /**
      * TODO: ? mybatis如何映射联表查询的列名的，是否包含表名前缀
      * 根据buyerId和commodityId来获取商品，包含是否购买的信息
      */
-    @Select("select c.*,o.purchased_quantity from " +
+    @Select("select c.*,o.purchased_quantity, o.per_price_snapshot from " +
             "(select * from commodity where id = #{commodityId}) c " +
             "left join " +
             "(select * from orders where creator_id = #{buyerId}) o  " +

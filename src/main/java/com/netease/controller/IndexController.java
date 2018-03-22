@@ -58,7 +58,7 @@ public class IndexController {
         indexService.indexShowAdaptor(model,localUser,true);
         // showType-1表示只显示未购买
         model.addAttribute("showType", 1);
-        return "buyerIndex";
+        return "index";
     }
 
     //TODO 完成功能时，将错误引导页加上

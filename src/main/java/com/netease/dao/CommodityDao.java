@@ -29,8 +29,11 @@ public interface CommodityDao {
     int addCommodity(Commodity commodity);
 
     /**
-     * 获取所有商品列表，并按照发布时间排序
+     * 获取所有商品列表，并按照发布时间排序 desc
      */
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
+            " where pub_status=1 " +
+                    "order by pub_time desc" })
     List<Commodity> getAllCommodityListOrderByPubTime();
 
 

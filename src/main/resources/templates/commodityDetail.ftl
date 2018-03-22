@@ -16,13 +16,13 @@
                 </div>
                 <div class="oprt f-cb">
                     <#if user?exists && user.type==1>
-                        <a href="/commodity/page/edit/${product.id}" class="u-btn u-btn-primary">编 辑</a>
+                        <a href="/commodity/page/edit/${commodity.id}" class="u-btn u-btn-primary">编 辑</a>
                     <#else>
-                        <#if product.isBuy>
+                        <#if (commodity.purchasedQuantity > 0)>
                             <span class="u-btn u-btn-primary z-dis">已购买</span>
-                            <span class="buyprice">当时购买价格：¥${product.buyPrice}</span>
+                            <span class="buyprice">购买单价：¥${commodity.perPriceSnapshot}</span>
                         <#else>
-                            <button class="u-btn u-btn-primary" data-buy="${product.id}">购 买</button>
+                            <button class="u-btn u-btn-primary" data-buy="${commodity.id}">购 买</button>
                         </#if>
                     </#if>
                 </div>

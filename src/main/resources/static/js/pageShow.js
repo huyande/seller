@@ -18,9 +18,9 @@
 							loading.show();
 							ajax({
 								data:{id:buy},
-								url:'/api/buy',
+								url:'/orders/api/addshopcar',
 								success:function(result){
-									loading.result('购买成功',function(){location.href = './account.html';});
+									loading.result('购买成功',function(){location.href = '/orders/page/shoppingcar';});
 								},
 								error:function(message){
 									loading.result(message||'购买失败');

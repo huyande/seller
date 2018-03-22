@@ -36,6 +36,7 @@ public class OrdersController {
     /**
      * 用户点击购买按钮提交订单到购物车
      *
+     * 添加成功后跳转到购物车页面
      * TODO 对用户登录状态以及用户类型进行验证
      */
     @RequestMapping(value = {"/api/addshopcar"}, method = {RequestMethod.GET, RequestMethod.POST})
@@ -98,7 +99,7 @@ public class OrdersController {
             model.addAttribute("errorMessage", errorMessage.toString());
             return "error";
         }
-        return "redirect:/orders/page/shoppingcar";
+        return "redirect:/orders/page/purchased";
     }
 
     /**

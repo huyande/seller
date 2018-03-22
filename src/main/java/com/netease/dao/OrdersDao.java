@@ -37,15 +37,15 @@ public interface OrdersDao {
      */
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
             " where creator_id=#{creatorId} and pay_status=0" +
-                    "order by pay_time"})
+                    "order by create_time desc"})
     List<Orders> getUnPayOrdersListByCreatorId(@Param("creatorId") int creatorId);
 
     /**
-     * 按照用户ID获取已支付订单列表,按照支付时间排序（购物车）
+     * 按照用户ID获取已支付订单列表,按照支付时间排序（账务）
      */
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
             " where creator_id=#{creatorId} and pay_status=2" +
-                    "order by pay_time"})
+                    "order by pay_time desc"})
     List<Orders> getPayedOrdersListByCreatorId(@Param("creatorId") int creatorId);
     /**
      * 按照订单id获取
@@ -54,11 +54,11 @@ public interface OrdersDao {
     Orders getOrdersById(int id);
 
     /**
-     * 按照用户ID获取未支付订单列表(shopping car购物车),按照支付时间排序
+     * 按照用户ID获取未支付订单列表(shopping car购物车),按照创建时间排序
      */
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
             " where creator_id=#{creatorId} " +
-                    "order by create_time"})
+                    "order by create_time desc"})
     List<Orders> getOrdersListForShoppingCarByCreatorId(@Param("creatorId") int creatorId);
 
     /**

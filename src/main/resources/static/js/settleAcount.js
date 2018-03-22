@@ -77,8 +77,8 @@
                         if(status >= 200 && status < 300 || status == 304){
                             var json = JSON.parse(xhr.responseText);
                             if(json && json.code == 200){
-                                //TODO，后端也跳转
-                                loading.result('购买成功',function(){location.href='/orders/page/shoppingcar';});
+                                //TODO:跳转到账务页面
+                                loading.result('购买成功',function(){location.href='/orders/page/purchased';});
                                 util.deleteCookie(name);
                             }else{
                                 alert(json.message);
@@ -88,7 +88,7 @@
                         }
                     }
                 };
-                xhr.open('post','orders/api/pay');
+                xhr.open('post','/orders/api/pay');
                 xhr.setRequestHeader('Content-Type','application/json');
                 xhr.send(data);
             }.bind(this)

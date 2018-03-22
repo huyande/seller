@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public class CommodityForBuyer extends Commodity {
     private int purchasedQuantity; //购买数量 0表示未购买
+    private double perPriceSnapshot; // 购买时的单价
 
     public int getPurchasedQuantity() {
         return purchasedQuantity;
@@ -18,6 +19,15 @@ public class CommodityForBuyer extends Commodity {
     public void setPurchasedQuantity(int purchasedQuantity) {
         this.purchasedQuantity = purchasedQuantity;
     }
+
+    public double getPerPriceSnapshot() {
+        return perPriceSnapshot;
+    }
+
+    public void setPerPriceSnapshot(double perPriceSnapshot) {
+        this.perPriceSnapshot = perPriceSnapshot;
+    }
+
     public CommodityForBuyer() {
 
     }
@@ -25,9 +35,10 @@ public class CommodityForBuyer extends Commodity {
                      String comAbstract, float perPrice,
                      String detail, String picURI, int picType,
                      int publisherId, Date pubTime, int storageAmount,
-                     int soldQuantity, int pubStatus,int purchasedQuantity) {
+                     int soldQuantity, int pubStatus,int purchasedQuantity,double perPriceSnapshot) {
         super(id, comCode, title, comAbstract, perPrice, detail, picURI,
                 picType, publisherId, pubTime, storageAmount, soldQuantity, pubStatus);
         this.purchasedQuantity = purchasedQuantity;
+        this.perPriceSnapshot = perPriceSnapshot;
     }
 }

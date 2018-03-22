@@ -42,11 +42,11 @@ public class CommodityController {
     private int PUB_STATUS;
 
     /**
-     *  添加商品内容
-     *
-     *  要点：
-     *  1.TODO 对用户登录状态以及用户类型进行验证
-     *  2.跳转到添加商品的详情页
+     * 添加商品内容
+     * <p>
+     * 要点：
+     * 1.TODO 对用户登录状态以及用户类型进行验证
+     * 2.跳转到添加商品的详情页
      */
     @RequestMapping(value = {"/api/add"}, method = {RequestMethod.POST})
     public String addCommodity(@RequestParam("title") String title,
@@ -85,7 +85,7 @@ public class CommodityController {
             commodity.setStorageAmount(storage);
         } else
             commodity.setStorageAmount(STORAGE_AMOUNT);
-        commodity.setComCode(CodeGeneUtils.comAndOrdCodeGen(false,user.getId()));
+        commodity.setComCode(CodeGeneUtils.comAndOrdCodeGen(false, user.getId()));
         commodity.setPubTime(new Date());
 
         Map<String, Object> message = commodityService.addCommodity(commodity);
@@ -109,7 +109,7 @@ public class CommodityController {
 
     /**
      * 保存商品修改内容
-     *
+     * <p>
      * TODO 对用户登录状态以及用户类型进行验证
      * 要点：返回商品详情页
      */
@@ -137,8 +137,8 @@ public class CommodityController {
         else
             return "Inner Error:price非数值类型数据，后端无法解析";
 
-        Map<String,String> message = commodityService.updateCommodity(commodity);
-        if (message.containsKey("outOfRange")){
+        Map<String, String> message = commodityService.updateCommodity(commodity);
+        if (message.containsKey("outOfRange")) {
             model.addAttribute("errorMessage", message.get("outOfRange"));
             return "error";
         }
@@ -147,10 +147,14 @@ public class CommodityController {
 
     /**
      * 显示商品信息
+     *
+     * 对于购买者，已经购买的商品显示购买时的价格
+     * TODO:任务疑惑-已经已经购买的商品是否可以重复购买R3.2与R4.3矛盾
+     * 暂时是不可重复购买
      */
     @RequestMapping(value = {"/page/show/{commodityId}"}, method = RequestMethod.GET)
     public String showCommodityInfo(Model model, @PathVariable("commodityId") int commodityId) {
-        Map<String,Object> message = commodityService.showCommodityInfo(commodityId);
+        Map<String, Object> message = commodityService.showCommodityInfo(commodityId);
         if (message.containsKey("commodity")) {
             model.addAttribute("commodity", message.get("commodity"));
         }
@@ -159,13 +163,13 @@ public class CommodityController {
 
     /**
      * 显示编辑页面
-     *
+     * <p>
      * TODO 对用户登录状态以及用户类型进行验证
      */
     @RequestMapping(value = {"/page/edit/{commodityId}"}, method = {RequestMethod.GET})
     public String showEditPage(Model model, @PathVariable("commodityId") int commodityId) {
 
-        Map<String,Object> message = commodityService.showCommodityInfo(commodityId);
+        Map<String, Object> message = commodityService.showCommodityInfo(commodityId);
         if (message.containsKey("commodity")) {
             model.addAttribute("commodity", message.get("commodity"));
             return "editCommodity";
@@ -177,7 +181,7 @@ public class CommodityController {
 
     /**
      * 显示添加商品页面
-     *
+     * <p>
      * TODO 对用户登录状态以及用户类型进行验证
      */
     @RequestMapping(value = {"/page/create"}, method = {RequestMethod.GET})
@@ -188,7 +192,7 @@ public class CommodityController {
 
     /**
      * 图片上传
-     *
+     * <p>
      * TODO 对用户登录状态以及用户类型进行验证
      */
     @ResponseBody
@@ -203,6 +207,12 @@ public class CommodityController {
             path = message.get("path");
         }
         return path;
+    }
+
+    @RequestMapping(value = {"/api/delete"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String deleteCommodity(@RequestParam("id") int commodityId) {
+        commodityService.deleteCommodityById(commodityId);
+        return "/";
     }
 
 //TODO 完成功能时，将错误引导页加上
