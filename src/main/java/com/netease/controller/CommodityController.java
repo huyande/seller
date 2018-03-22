@@ -43,6 +43,10 @@ public class CommodityController {
 
     /**
      *  添加商品内容
+     *
+     *  要点：
+     *  1.TODO 对用户登录状态以及用户类型进行验证
+     *  2.跳转到添加商品的详情页
      */
     @RequestMapping(value = {"/api/add"}, method = {RequestMethod.POST})
     public String addCommodity(@RequestParam("title") String title,
@@ -105,6 +109,9 @@ public class CommodityController {
 
     /**
      * 保存商品修改内容
+     *
+     * TODO 对用户登录状态以及用户类型进行验证
+     * 要点：返回商品详情页
      */
     @RequestMapping(value = {"/api/save/{commodityId}"}, method = {RequestMethod.POST})
     public String saveCommodity(@PathVariable("commodityId") int commodityId,
@@ -152,6 +159,8 @@ public class CommodityController {
 
     /**
      * 显示编辑页面
+     *
+     * TODO 对用户登录状态以及用户类型进行验证
      */
     @RequestMapping(value = {"/page/edit/{commodityId}"}, method = {RequestMethod.GET})
     public String showEditPage(Model model, @PathVariable("commodityId") int commodityId) {
@@ -168,6 +177,8 @@ public class CommodityController {
 
     /**
      * 显示添加商品页面
+     *
+     * TODO 对用户登录状态以及用户类型进行验证
      */
     @RequestMapping(value = {"/page/create"}, method = {RequestMethod.GET})
     public String showCreatePage() {
@@ -177,6 +188,8 @@ public class CommodityController {
 
     /**
      * 图片上传
+     *
+     * TODO 对用户登录状态以及用户类型进行验证
      */
     @ResponseBody
     @RequestMapping(value = {"/api/upload"}, method = {RequestMethod.POST})

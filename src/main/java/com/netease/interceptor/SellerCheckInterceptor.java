@@ -1,5 +1,8 @@
 package com.netease.interceptor;
 
+import com.netease.model.PerRequestUserHolder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -10,12 +13,22 @@ import javax.servlet.http.HttpServletResponse;
  * @author zhanglbjames@163.com
  * @version Created on 18-3-22.
  */
-public class UserTypeCheckInterceptor implements HandlerInterceptor{
+@Component
+public class SellerCheckInterceptor implements HandlerInterceptor{
+
+    @Autowired
+    private PerRequestUserHolder localUserHolder;
+
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest,
                              HttpServletResponse httpServletResponse,
                              Object o) throws Exception {
-        return false;
+
+        if (localUserHolder.getLocalUser().getType() != 1) {// 不是购买用户
+            httpServletResponse.sendRedirect("/"); // 跳转到主页
+            return false;
+        }
+        return true;
     }
 
     @Override

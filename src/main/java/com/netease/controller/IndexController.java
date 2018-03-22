@@ -26,6 +26,20 @@ public class IndexController {
     @Autowired
     IndexService indexService;
 
+
+    /**
+     * 主页显示
+     *
+     * 0- 登录购买用户
+     * 要点：商品列表上含有已购买标记（通过购买数量来进行判断）
+     * 可以只查看未购买商品
+     *
+     * 1- 用户商家用户
+     * 要点：已经出售的商品，标明出售的数量
+     *
+     * 2- 未登录
+     * 显示所有商品，不可查看未购买商品
+     */
     @RequestMapping(value = {"/", "/index"}, method = {RequestMethod.GET})
     public String index(Model model) {
 

@@ -1,6 +1,8 @@
 package com.netease.configuration;
 
+import com.netease.interceptor.BuyerCheckInterceptor;
 import com.netease.interceptor.LoginInterceptor;
+import com.netease.interceptor.SellerCheckInterceptor;
 import com.netease.interceptor.TicketCheckInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * @author zhanglbjames@163.com
@@ -30,10 +33,14 @@ public class SellerWebConfiguration extends WebMvcConfigurerAdapter {
     @Autowired
     LoginInterceptor loginInterceptor;
 
+    @Autowired
+    BuyerCheckInterceptor buyerCheckInterceptor;
+
+    @Autowired
+    SellerCheckInterceptor sellerCheckInterceptor;
+
     @Value(("${STATIC_STORAGE_MAPPER_PATH}"))
     private String STATIC_STORAGE_MAPPER_PATH;
-
-
 
     /**
      * 拦截器
@@ -41,8 +48,27 @@ public class SellerWebConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
+        ArrayList<String> onlyAllowBuyerPath = new ArrayList<String>();
+        onlyAllowBuyerPath.add("/page/notbuy");
+        onlyAllowBuyerPath.add("/orders/*");
+
+        ArrayList<String> onlyAllowSellerPath=new ArrayList<String>();
+        onlyAllowSellerPath.add("/commodity/api/*");
+        onlyAllowSellerPath.add("/commodity/page/edit/*");
+        onlyAllowSellerPath.add("/commodity/page/create");
+
+        ArrayList<String> onlyAllowLoginUserPath = new ArrayList<String>();
+        onlyAllowLoginUserPath.addAll(onlyAllowBuyerPath);
+        onlyAllowLoginUserPath.addAll(onlyAllowSellerPath);
+
         registry.addInterceptor(ticketCheckInterceptor);//对所有请求进行拦截
-        registry.addInterceptor(loginInterceptor).addPathPatterns("");
+        registry.addInterceptor(loginInterceptor)
+                .addPathPatterns(onlyAllowLoginUserPath.toArray(new String[0]));
+        registry.addInterceptor(buyerCheckInterceptor)
+                .addPathPatterns(onlyAllowBuyerPath.toArray(new String[0]));
+        registry.addInterceptor(sellerCheckInterceptor).
+                addPathPatterns(onlyAllowSellerPath.toArray(new String[0]));
 
         super.addInterceptors(registry);
     }

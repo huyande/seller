@@ -1,7 +1,6 @@
 package com.netease.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.netease.dao.OrdersDao;
 import com.netease.model.Orders;
 import com.netease.model.PerRequestUserHolder;
 import com.netease.model.User;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.lang.model.element.NestingKind;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -36,8 +34,9 @@ public class OrdersController {
     OrdersService ordersService;
 
     /**
-     * 用户点击购买按钮提交订单
-     * TODO 事务
+     * 用户点击购买按钮提交订单到购物车
+     *
+     * TODO 对用户登录状态以及用户类型进行验证
      */
     @RequestMapping(value = {"/api/addshopcar"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String addShoppingCar(@RequestParam("commodityId") int commodityId,
@@ -61,8 +60,9 @@ public class OrdersController {
 
     /**
      * 显示购物车的内容
-     * <p>
      * 为了配合前端，把数据放在cookie里
+     *
+     * TODO 对用户登录状态以及用户类型进行验证
      */
     @RequestMapping(value = {"page/shoppingcar"}, method = {RequestMethod.POST, RequestMethod.GET})
     public String shoppingCarPage(Model model, HttpServletResponse response) {
@@ -78,6 +78,7 @@ public class OrdersController {
 
     /**
      * 结算购物车
+     * TODO 对用户登录状态以及用户类型进行验证
      */
     @SuppressWarnings("unchecked")
     @RequestMapping(value = {"api/pay"}, method = {RequestMethod.GET, RequestMethod.POST})
@@ -102,6 +103,8 @@ public class OrdersController {
 
     /**
      * 账务-已购买的商品列表
+     *
+     * TODO 对用户登录状态以及用户类型进行验证
      */
     @RequestMapping(value = {"/page/purchased"}, method = {RequestMethod.GET})
     public String purchasedPage(Model model) {

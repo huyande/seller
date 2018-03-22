@@ -3,6 +3,8 @@ package com.netease.model;
 /**
  * @author zhanglbjames@163.com
  * @version Created on 18-3-22.
+ *
+ * 用于购物车结算时，持有JSON数据
  */
 public class JsonSimpleOrder {
     private int id;

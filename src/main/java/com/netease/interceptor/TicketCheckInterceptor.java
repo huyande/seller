@@ -19,7 +19,7 @@ import java.util.Date;
  * @author zhanglbjames@163.com
  * @version Created on 18-3-19.
  *
- * 对ticket进行检查
+ * 对ticket进行检查,对登录用户添加本地User对象对模型中
  */
 
 @Component
