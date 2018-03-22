@@ -114,11 +114,9 @@ public class CommodityService {
         User localUser = localUserHoler.getLocalUser();
         // 0:消费者 1:商家 2:未登录
         int userType = 2;
-        boolean isPurchased = false;
         if (localUser != null) {
             userType = localUser.getType();
         }
-
 
         // 0-消费用户
         if (userType == 0) {
@@ -131,7 +129,7 @@ public class CommodityService {
         // 1-商家 2-未登录用户
         else {
             Commodity commodity = commodityDao.getCommodityById(commodityId);
-            message.put("commodities", commodity);
+            message.put("commodity", commodity);
             return message;
         }
     }

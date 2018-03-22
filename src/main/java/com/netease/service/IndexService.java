@@ -4,8 +4,10 @@ import com.netease.dao.CommodityDao;
 import com.netease.dao.CommodityForBuyerDao;
 import com.netease.model.Commodity;
 import com.netease.model.CommodityForBuyer;
+import com.netease.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -25,31 +27,37 @@ public class IndexService {
     private CommodityForBuyerDao commodityForBuyerDao;
 
     /**
-     * 登陆buyer用户的商品浏览列表(所有商品)
+     * 根据用户类型进行主页显示
      */
-    public List<CommodityForBuyer> loginBuyerIndexAllCommShowList(int buyerId) {
-        return commodityForBuyerDao.getAllCommodityListWithTypeOfPurchased(buyerId);
-    }
+    public void indexShowAdaptor(Model model, User user,boolean isShowUnBuy) {
 
-    /**
-     * 登录buyer用户显示未购买商品列表
-     */
-    public List<Commodity> loginBuyerIndexUnPurchasedCommShowList(int buyerId) {
-        return commodityForBuyerDao.getCommodityListWithTypeOfUnPurchased(buyerId);
-    }
+        // 0:消费者 1:商家 2:未登录
+        int userType = 2;
+        if (user != null) {
+            userType = user.getType();
+        }
 
-    /**
-     * 未登陆用户的商品浏览列表
-     */
-    public List<Commodity> unLoginUserIndexCommShowList() {
-        return commodityDao.getAllCommodityListOrderByPubTime();
-    }
+        // 0-消费用户
+        if (userType == 0) {
+            // 全部显示
+            if (!isShowUnBuy){
+                model.addAttribute("commodities",
+                        commodityForBuyerDao.getAllCommodityListWithTypeOfPurchased(user.getId()));
+            }else {//只显示未购买
+                model.addAttribute("commodities",
+                        commodityForBuyerDao.getCommodityListWithTypeOfUnPurchased(user.getId()));
+            }
 
-    /**
-     * 登陆seller用户的商品浏览列表
-     */
-    public List<Commodity> loginSellerIndexCommShowList(int sellerId) {
-        return commodityDao.getCommodityByPubId(sellerId);
-    }
+        }
+        // 1-商家
+        else if (userType == 1) {
+            model.addAttribute("commodities",
+                    commodityDao.getCommodityByPubId(user.getId()));
+        }
 
+        // 2-未登录用户
+        else {
+            model.addAttribute("commodities", commodityDao.getAllCommodityListOrderByPubTime());
+        }
+    }
 }

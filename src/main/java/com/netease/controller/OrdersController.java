@@ -110,4 +110,12 @@ public class OrdersController {
         model.addAttribute("ordersList", ordersList);
         return "ordersShow";
     }
+
+    //TODO 完成功能时，将错误引导页加上
+//    // 错误引导页
+//    @ExceptionHandler()
+//    public String error(Model model, Exception e) {
+//        model.addAttribute("errorMessage", "Inner Error: " + e.getMessage());
+//        return "error";
+//    }
 }

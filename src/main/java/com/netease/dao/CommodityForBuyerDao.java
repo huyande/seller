@@ -23,7 +23,7 @@ public interface CommodityForBuyerDao {
      * 返回所有已发布商品，含有该用户购买的数量
      */
     @Select("select c.*,o.purchased_quantity from " +
-            "(select * from commodity where pub_status=1)  c " +
+            "(select * from commodity where pub_status=1) c " +
             "left join " +
             "(select * from orders where creator_id = #{buyerId}) o  " +
             "on c.id =  o.com_id " +
@@ -34,7 +34,7 @@ public interface CommodityForBuyerDao {
      * 返回所有该用户没有购买的已发布商品，不用返回购买的数量
      */
     @Select("select c.* from " +
-            "(select * from commodity where pub_status=1)  c " +
+            "(select * from commodity where pub_status=1) c " +
             "left join " +
             "(select * from orders where creator_id = #{buyerId}) o  " +
             "on c.id =  o.com_id " +
@@ -47,7 +47,7 @@ public interface CommodityForBuyerDao {
      * 根据buyerId和commodityId来获取商品，包含是否购买的信息
      */
     @Select("select c.*,o.purchased_quantity from " +
-            "(select * from commodity where id = #{commodityId})  c " +
+            "(select * from commodity where id = #{commodityId}) c " +
             "left join " +
             "(select * from orders where creator_id = #{buyerId}) o  " +
             "on c.id =  o.com_id")

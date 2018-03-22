@@ -42,8 +42,7 @@ public class SellerWebConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(ticketCheckInterceptor);//对所有请求进行拦截
-        //registry.addInterceptor(loginInterceptor);
-                //.addPathPatterns("")
+        registry.addInterceptor(loginInterceptor).addPathPatterns("");
 
         super.addInterceptors(registry);
     }

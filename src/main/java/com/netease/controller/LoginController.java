@@ -72,17 +72,18 @@ public class LoginController {
         return "redirect:/";
     }
 
-
-    // 错误引导页
-    @ExceptionHandler()
-    public String error(Model model, Exception e) {
-        model.addAttribute("errorMessage", "Inner Error: " + e.getMessage());
-        return "error";
-    }
-
-    // 登录页(只有未登录用户可见)
+    // 登录页
     @RequestMapping(path = {"/page/login"}, method = {RequestMethod.GET})
     public String getLogin() {
         return "login";
     }
+
+//    // 错误引导页 TODO 完成功能时，将错误引导页加上
+//    @ExceptionHandler()
+//    public String error(Model model, Exception e) {
+//        model.addAttribute("errorMessage", "Inner Error: " + e.getMessage());
+//        return "error";
+//    }
+
+
 }
