@@ -7,16 +7,15 @@ import java.util.Date;
  * @version Created on 18-3-20.
  */
 public class CommodityForBuyer extends Commodity {
+    private int purchasedQuantity; //购买数量 0表示未购买
 
-    private int isPurchased; // 0:未购买  1:已购买
-    public int getIsPurchased() {
-        return isPurchased;
+    public int getPurchasedQuantity() {
+        return purchasedQuantity;
     }
 
-    public void setIsPurchased(int isPurchased) {
-        this.isPurchased = isPurchased;
+    public void setPurchasedQuantity(int purchasedQuantity) {
+        this.purchasedQuantity = purchasedQuantity;
     }
-
     public CommodityForBuyer() {
 
     }
@@ -24,8 +23,9 @@ public class CommodityForBuyer extends Commodity {
                      String comAbstract, float perPrice,
                      String detail, String picURI, int picType,
                      int publisherId, Date pubTime, int storageAmount,
-                     int soldQuantity, int pubStatus,int isPurchased) {
-        super(id, comCode, title, comAbstract, perPrice, detail, picURI, picType, publisherId, pubTime, storageAmount, soldQuantity, pubStatus);
-        this.isPurchased = isPurchased;
+                     int soldQuantity, int pubStatus,int purchasedQuantity) {
+        super(id, comCode, title, comAbstract, perPrice, detail, picURI,
+                picType, publisherId, pubTime, storageAmount, soldQuantity, pubStatus);
+        this.purchasedQuantity = purchasedQuantity;
     }
 }

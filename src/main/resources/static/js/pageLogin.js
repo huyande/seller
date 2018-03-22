@@ -12,7 +12,8 @@
 		init:function(){
 			loginForm.addEventListener('submit',function(e){
 				if(!isSubmiting && this.check()){
-					var value1 = userName.value; // 没有MD5加密
+					var value1 = userName.value;
+					// TODO 测试方便没有MD5加密，后期修改
 					//var value2 = md5(password.value);
                     var value2 = password.value;
 					isSubmiting = true;

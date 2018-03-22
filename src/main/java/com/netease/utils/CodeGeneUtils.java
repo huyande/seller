@@ -15,6 +15,13 @@ public class CodeGeneUtils {
     // 商品和订单编号生成器
     // 格式：comm/order-id-data
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+    /**
+     * 商品和订单编码生成器
+     *
+     * @param isOrder 是订单
+     * @param id 创建者ID
+     */
     public static String comAndOrdCodeGen(boolean isOrder, int id) {
         StringBuilder stringBuilder = new StringBuilder();
         if (isOrder)
@@ -31,8 +38,11 @@ public class CodeGeneUtils {
         return stringBuilder.toString();
     }
 
-    // 本地图片名称生成器
-    // 格式：data-uuid
+    /**
+     * 本地图片名称生成器
+     * 格式：data-uuid
+     */
+
     public static String picNameUUIDGen() {
         StringBuilder stringBuilder = new StringBuilder();
         Date now = new Date();

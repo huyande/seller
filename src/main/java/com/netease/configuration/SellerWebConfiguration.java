@@ -35,7 +35,10 @@ public class SellerWebConfiguration extends WebMvcConfigurerAdapter {
 
 
 
-    // 拦截器
+    /**
+     * 拦截器
+     */
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(ticketCheckInterceptor);//对所有请求进行拦截
@@ -45,7 +48,9 @@ public class SellerWebConfiguration extends WebMvcConfigurerAdapter {
         super.addInterceptors(registry);
     }
 
-    // 追加图片静态存取路径配置
+    /**
+     * 追加图片静态存取路径配置
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
@@ -62,9 +67,11 @@ public class SellerWebConfiguration extends WebMvcConfigurerAdapter {
             logger.error("静态路径创建失败");
     }
 
+    /**
+     * 在用户目录创建与静态跟路径同名的目录
+     * Linux/win路径处理
+     */
     private String getPath() {
-        // 在用户目录创建与静态跟路径同名的目录
-        // Linux/win路径处理
         String separator = File.separator;
         String storagePath = System.getProperty("user.home")+
                 STATIC_STORAGE_MAPPER_PATH.replaceAll("/",separator);//先把默认的分割符去掉

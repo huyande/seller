@@ -14,31 +14,13 @@ public class Commodity {
     private String comAbstract; // the SQL column is commodity.abstract
     private double perPrice;
     private String detail;
-    private String picURI;
+    private String picUrl;
     private int picType;
     private int publisherId;
     private Date pubTime;
     private int storageAmount;
     private int soldQuantity;
     private int pubStatus; // 商品的状态，0：未发布,1：已发布，2：已删除
-
-
-    public int getStorageAmount() {
-        return storageAmount;
-    }
-
-    public void setStorageAmount(int storageAmount) {
-        this.storageAmount = storageAmount;
-    }
-
-    public int getSoldQuantity() {
-        return soldQuantity;
-    }
-
-    public void setSoldQuantity(int soldQuantity) {
-        this.soldQuantity = soldQuantity;
-    }
-
 
     public int getId() {
         return id;
@@ -88,12 +70,12 @@ public class Commodity {
         this.detail = detail;
     }
 
-    public String getPicURI() {
-        return picURI;
+    public String getPicUrl() {
+        return picUrl;
     }
 
-    public void setPicURI(String picURI) {
-        this.picURI = picURI;
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 
     public int getPicType() {
@@ -120,6 +102,22 @@ public class Commodity {
         this.pubTime = pubTime;
     }
 
+    public int getStorageAmount() {
+        return storageAmount;
+    }
+
+    public void setStorageAmount(int storageAmount) {
+        this.storageAmount = storageAmount;
+    }
+
+    public int getSoldQuantity() {
+        return soldQuantity;
+    }
+
+    public void setSoldQuantity(int soldQuantity) {
+        this.soldQuantity = soldQuantity;
+    }
+
     public int getPubStatus() {
         return pubStatus;
     }
@@ -128,9 +126,8 @@ public class Commodity {
         this.pubStatus = pubStatus;
     }
 
-    public Commodity(int id, String comCode, String title,
-                     String comAbstract, float perPrice,
-                     String detail, String picURI, int picType,
+    public Commodity(int id, String comCode, String title, String comAbstract,
+                     double perPrice, String detail, String picUrl, int picType,
                      int publisherId, Date pubTime, int storageAmount,
                      int soldQuantity, int pubStatus) {
         this.id = id;
@@ -139,7 +136,7 @@ public class Commodity {
         this.comAbstract = comAbstract;
         this.perPrice = perPrice;
         this.detail = detail;
-        this.picURI = picURI;
+        this.picUrl = picUrl;
         this.picType = picType;
         this.publisherId = publisherId;
         this.pubTime = pubTime;

@@ -24,22 +24,30 @@ public class IndexService {
     @Autowired
     private CommodityForBuyerDao commodityForBuyerDao;
 
-    //登陆buyer用户的商品浏览列表(所有商品)
+    /**
+     * 登陆buyer用户的商品浏览列表(所有商品)
+     */
     public List<CommodityForBuyer> loginBuyerIndexAllCommShowList(int buyerId) {
         return commodityForBuyerDao.getAllCommodityListWithTypeOfPurchased(buyerId);
     }
 
-    // 登录buyer用户显示未购买商品列表
+    /**
+     * 登录buyer用户显示未购买商品列表
+     */
     public List<Commodity> loginBuyerIndexUnPurchasedCommShowList(int buyerId) {
         return commodityForBuyerDao.getCommodityListWithTypeOfUnPurchased(buyerId);
     }
 
-    //未登陆用户的商品浏览列表
+    /**
+     * 未登陆用户的商品浏览列表
+     */
     public List<Commodity> unLoginUserIndexCommShowList() {
         return commodityDao.getAllCommodityListOrderByPubTime();
     }
 
-    //登陆seller用户的商品浏览列表
+    /**
+     * 登陆seller用户的商品浏览列表
+     */
     public List<Commodity> loginSellerIndexCommShowList(int sellerId) {
         return commodityDao.getCommodityByPubId(sellerId);
     }

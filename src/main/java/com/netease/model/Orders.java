@@ -11,21 +11,14 @@ public class Orders {
     private String orderNumber;
     private int comId;
     private String comTitle;
-    private String comPicUri;
-    private int comQuantity;
+    private String comPicUrl;
+    private int purchasedQuantity;
     private int payStatus;
-    private float perPriceSnapshot;
+    private double perPriceSnapshot;
     private Date payTime;
     private Date createTime;
     private int creatorId;
 
-    public String getComPicUri() {
-        return comPicUri;
-    }
-
-    public void setComPicUri(String comPicUri) {
-        this.comPicUri = comPicUri;
-    }
     public int getId() {
         return id;
     }
@@ -58,12 +51,20 @@ public class Orders {
         this.comTitle = comTitle;
     }
 
-    public int getComQuantity() {
-        return comQuantity;
+    public String getComPicUrl() {
+        return comPicUrl;
     }
 
-    public void setComQuantity(int comQuantity) {
-        this.comQuantity = comQuantity;
+    public void setComPicUrl(String comPicUrl) {
+        this.comPicUrl = comPicUrl;
+    }
+
+    public int getPurchasedQuantity() {
+        return purchasedQuantity;
+    }
+
+    public void setPurchasedQuantity(int purchasedQuantity) {
+        this.purchasedQuantity = purchasedQuantity;
     }
 
     public int getPayStatus() {
@@ -74,11 +75,11 @@ public class Orders {
         this.payStatus = payStatus;
     }
 
-    public float getPerPriceSnapshot() {
+    public double getPerPriceSnapshot() {
         return perPriceSnapshot;
     }
 
-    public void setPerPriceSnapshot(float perPriceSnapshot) {
+    public void setPerPriceSnapshot(double perPriceSnapshot) {
         this.perPriceSnapshot = perPriceSnapshot;
     }
 
@@ -106,24 +107,22 @@ public class Orders {
         this.creatorId = creatorId;
     }
 
-
     public Orders(int id, String orderNumber, int comId, String comTitle,
-                  String comPicUri, int comQuantity, int payStatus,
-                  float perPriceSnapshot, Date payTime, Date createTime,
-                  int creatorId) {
-
+                  String comPicUrl, int purchasedQuantity, int payStatus,
+                  float perPriceSnapshot, Date payTime, Date createTime, int creatorId) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.comId = comId;
         this.comTitle = comTitle;
-        this.comPicUri = comPicUri;
-        this.comQuantity = comQuantity;
+        this.comPicUrl = comPicUrl;
+        this.purchasedQuantity = purchasedQuantity;
         this.payStatus = payStatus;
         this.perPriceSnapshot = perPriceSnapshot;
         this.payTime = payTime;
         this.createTime = createTime;
         this.creatorId = creatorId;
     }
+
     public Orders() {
     }
 }

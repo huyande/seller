@@ -41,8 +41,9 @@ public class CommodityController {
     @Value(("${PUB_STATUS}"))
     private int PUB_STATUS;
 
-
-    // 添加商品内容
+    /**
+     *  添加商品内容
+     */
     @RequestMapping(value = {"/api/add"}, method = {RequestMethod.POST})
     public String addCommodity(@RequestParam("title") String title,
                                @RequestParam("summary") String comAbstract,
@@ -63,7 +64,7 @@ public class CommodityController {
         // required value
         commodity.setTitle(title);
         commodity.setComAbstract(comAbstract);
-        commodity.setPicURI(imageUri);
+        commodity.setPicUrl(imageUri);
         commodity.setDetail(detail);
         commodity.setPublisherId(user.getId());
         if (StringAndFileUtils.isDouble(price))
@@ -102,7 +103,9 @@ public class CommodityController {
     }
 
 
-    // 保存商品修改内容
+    /**
+     * 保存商品修改内容
+     */
     @RequestMapping(value = {"/api/save/{commodityId}"}, method = {RequestMethod.POST})
     public String saveCommodity(@PathVariable("commodityId") int commodityId,
                                 @RequestParam("title") String title,
@@ -110,7 +113,8 @@ public class CommodityController {
                                 @RequestParam("pic") String picType,
                                 @RequestParam("image") String imageUri,
                                 @RequestParam("detail") String detail,
-                                @RequestParam("price") String price) {
+                                @RequestParam("price") String price,
+                                Model model) {
 
 
         Commodity commodity = new Commodity();
@@ -118,7 +122,7 @@ public class CommodityController {
         commodity.setId(commodityId);
         commodity.setTitle(title);
         commodity.setComAbstract(comAbstract);
-        commodity.setPicURI(imageUri);
+        commodity.setPicUrl(imageUri);
         commodity.setDetail(detail);
         commodity.setPicType(picType.equals("file") ? 0 : 1);
         if (StringAndFileUtils.isDouble(price))
@@ -126,11 +130,17 @@ public class CommodityController {
         else
             return "Inner Error:price非数值类型数据，后端无法解析";
 
-        commodityService.updateCommodity(commodity);
+        Map<String,String> message = commodityService.updateCommodity(commodity);
+        if (message.containsKey("outOfRange")){
+            model.addAttribute("errorMessage", message.get("outOfRange"));
+            return "error";
+        }
         return "redirect:/commodity/show/" + commodityId;
     }
 
-    // 显示商品信息
+    /**
+     * 显示商品信息
+     */
     @RequestMapping(value = {"/page/show/{commodityId}"}, method = RequestMethod.GET)
     public String showCommodityInfo(Model model, @PathVariable("commodityId") int commodityId) {
         Map<String,Object> message = commodityService.showCommodityInfo(commodityId);
@@ -140,7 +150,9 @@ public class CommodityController {
         return "commodityDetail";
     }
 
-    // 显示编辑页面
+    /**
+     * 显示编辑页面
+     */
     @RequestMapping(value = {"/page/edit/{commodityId}"}, method = {RequestMethod.GET})
     public String showEditPage(Model model, @PathVariable("commodityId") int commodityId) {
 
@@ -154,14 +166,18 @@ public class CommodityController {
         }
     }
 
-    // 显示添加商品页面
+    /**
+     * 显示添加商品页面
+     */
     @RequestMapping(value = {"/page/create"}, method = {RequestMethod.GET})
     public String showCreatePage() {
         return "createCommodity";
     }
 
 
-    // 图片上传
+    /**
+     * 图片上传
+     */
     @ResponseBody
     @RequestMapping(value = {"/api/upload"}, method = {RequestMethod.POST})
     public String uploadFile(@RequestParam(value = "file", required = false) MultipartFile file) {
@@ -176,7 +192,7 @@ public class CommodityController {
         return path;
     }
 
-
+//TODO 完成功能时，将错误引导页加上
 //    // 错误引导页
 //    @ExceptionHandler()
 //    public String error(Model model, Exception e) {

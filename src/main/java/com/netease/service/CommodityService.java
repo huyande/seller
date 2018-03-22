@@ -46,7 +46,9 @@ public class CommodityService {
     @Value(("${STATIC_STORAGE_MAPPER_PATH}"))
     private String STATIC_STORAGE_MAPPER_PATH;
 
-    // 添加商品,并返回插入商品的ID
+    /**
+     * 添加商品,并返回插入商品的ID
+     */
     public Map<String, Object> addCommodity(Commodity commodity) {
         Map<String, Object> message = new HashMap<String, Object>();
 
@@ -79,17 +81,33 @@ public class CommodityService {
 
     }
 
-    // 删除商品
-    public int deleteCommodityById(int commodityId) {
-        return commodityDao.deleteCommodityById(commodityId);
+    /**
+     * 删除商品
+     */
+    public void deleteCommodityById(int commodityId) {
+        // 2 表示未发布，相当于保存历史记录，但是并不真实的删除商品记录
+         commodityDao.deleteCommodityById(2,commodityId);
     }
 
-    // 更新商品信息
-    public int updateCommodity(Commodity commodity) {
-        return commodityDao.updateCommodity(commodity);
+    /**
+     * 更新商品信息
+     */
+    public Map<String, String> updateCommodity(Commodity commodity) {
+        Map<String, String> message = new HashMap<String, String>();
+
+        // 检查商品内容的长度
+        if (!StringAndFileUtils.checkCommodityAllContent(commodity.getTitle(),
+                commodity.getComAbstract(), commodity.getDetail())) {
+            message.put("outOfRange", "后端插入检查异常：商品内容信息可能过长或过段");
+            return message;
+        }
+        commodityDao.updateCommodityEdit(commodity);
+        return message;
     }
 
-    // 根据id获取商品
+    /**
+     * 根据id获取商品
+     */
     public Map<String,Object> showCommodityInfo(int commodityId) {
         Map<String,Object> message = new HashMap<String,Object>() ;
 
@@ -118,7 +136,9 @@ public class CommodityService {
         }
     }
 
-    // 上传图片文件
+    /**
+     * 上传图片文件
+     */
     public Map<String, String> saveFile(MultipartFile file) {
         Map<String, String> message = new HashMap<String, String>();
 
