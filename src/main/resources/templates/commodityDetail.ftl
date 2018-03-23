@@ -7,7 +7,7 @@
 <div class="g-doc">
     <#if commodity?exists>
         <div class="n-show f-cb" id="showContent">
-            <div class="img"><img src="${commodity.picURI}" alt=""></div>
+            <div class="img"><img src="${commodity.picUrl}" alt=""></div>
             <div class="cnt">
                 <h2>${commodity.title}</h2>
                 <p class="summary">${commodity.comAbstract}</p>
@@ -22,6 +22,7 @@
                             <span class="u-btn u-btn-primary z-dis">已购买</span>
                             <span class="buyprice">购买单价：¥${commodity.perPriceSnapshot}</span>
                         <#else>
+
                             <button class="u-btn u-btn-primary" data-buy="${commodity.id}">购 买</button>
                         </#if>
                     </#if>

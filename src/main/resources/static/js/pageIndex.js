@@ -22,14 +22,20 @@
 				onconfirm:function(){
 					layer.hide();
 					loading.show();
-					ajax({
-						url:'/commodity/api/delete',
-						data:{id:id},
-						success:function(json){
-							this.delItemNode(id);
-							loading.result('删除成功');
-						}.bind(this)
-					});
+
+                    var form = new FormData();
+                    form.append('commodityId', id);
+                    form.enctype = "multipart/form-data";
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("post", "/commodity/api/delete", true);
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            loading.result('删除成功');
+                        }
+                    };
+                    xhr.send(form);
+
 				}.bind(this)
 			}).show();
 		},

@@ -28,7 +28,7 @@ public class DebugLoggerAspect {
                 sb.append("arg:" + arg.toString() + "|");
             }
         }
-        logger.info("before method:" + sb.toString());
+        logger.info("before method:["+joinPoint.getSignature()+"]" + sb.toString());
     }
 
     @After("execution(* com.netease.controller.IndexController.*(..))")

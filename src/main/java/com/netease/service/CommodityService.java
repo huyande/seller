@@ -37,7 +37,7 @@ public class CommodityService {
     private CommodityForBuyerDao commodityForBuyerDao;
 
     @Autowired
-    PerRequestUserHolder localUserHoler;
+    PerRequestUserHolder perRequestUserHolder;
 
 
     @Value(("${PIC_MAX_SIZE}"))
@@ -108,29 +108,21 @@ public class CommodityService {
     /**
      * 根据id获取商品
      */
-    public Map<String,Object> showCommodityInfo(int commodityId) {
-        Map<String,Object> message = new HashMap<String,Object>() ;
-
-        User localUser = localUserHoler.getLocalUser();
+    public Commodity showCommodityInfo(int commodityId) {
+        User user = perRequestUserHolder.getLocalUser();
         // 0:消费者 1:商家 2:未登录
         int userType = 2;
-        if (localUser != null) {
-            userType = localUser.getType();
+        if (user != null) {
+            userType = user.getType();
         }
-
         // 0-消费用户
         if (userType == 0) {
-            CommodityForBuyer commodityForBuyer =
-                    commodityForBuyerDao.getCommodityByBuyerIdAndCommId(localUser.getId(), commodityId);
-           message.put("commodity", commodityForBuyer);
-            return message;
+            return commodityForBuyerDao.getCommodityByBuyerIdAndCommId(user.getId(), commodityId);
         }
 
         // 1-商家 2-未登录用户
         else {
-            Commodity commodity = commodityDao.getCommodityById(commodityId);
-            message.put("commodity", commodity);
-            return message;
+            return commodityDao.getCommodityById(commodityId);
         }
     }
 

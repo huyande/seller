@@ -8,10 +8,7 @@ import com.netease.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -39,11 +36,12 @@ public class OrdersController {
      * 添加成功后跳转到购物车页面
      * TODO 对用户登录状态以及用户类型进行验证
      */
+    @ResponseBody
     @RequestMapping(value = {"/api/addshopcar"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String addShoppingCar(@RequestParam("commodityId") int commodityId,
-                                 @RequestParam("purchasedQuantity") int purchasedQuantity,
-                                 @RequestParam("returnUtl") String returnUrl,
-                                 Model model) {
+                                 @RequestParam(value ="purchasedQuantity",defaultValue = "1") int purchasedQuantity,
+                                 Model model,
+                                 HttpServletResponse response) {
 
         User user = perRequestUserHolder.getLocalUser();
 
@@ -51,12 +49,13 @@ public class OrdersController {
                 ordersService.addShoppingCarTransaction(commodityId, purchasedQuantity, user.getId());
 
         if (message.containsKey("error")) {
-            model.addAttribute("errorMessage", message.get("error"));
-            return "error";
+            response.setStatus(201);
+            return message.get("error");
         }
 
-        // 返回到购买之前的页面 TODO：任务书上没有要求跳转到哪里
-        return "redirect:" + returnUrl;
+        // 返回到购买车页面 TODO：任务书上没有要求跳转到哪里
+        response.setStatus(200);
+        return null;
     }
 
     /**

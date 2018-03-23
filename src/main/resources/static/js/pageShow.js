@@ -16,16 +16,22 @@
 						onconfirm:function(){
 							layer.hide();
 							loading.show();
-							ajax({
-								data:{id:buy},
-								url:'/orders/api/addshopcar',
-								success:function(result){
-									loading.result('购买成功',function(){location.href = '/orders/page/shoppingcar';});
-								},
-								error:function(message){
-									loading.result(message||'购买失败');
-								}
-							});
+
+                            var form = new FormData();
+                            form.append('commodityId', buy);
+                            form.enctype = "multipart/form-data";
+
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("post", "/orders/api/addshopcar", true);
+                            xhr.onload = function () {
+                                if (xhr.status === 200) {
+                                    loading.result('购买成功',function(){location.href = '/orders/page/shoppingcar';});
+                                } else {
+                                    loading.result(xhr.responseText);
+                                }
+                            };
+                            xhr.send(form);
+
 						}.bind(this)
 					}).show();
 					return;

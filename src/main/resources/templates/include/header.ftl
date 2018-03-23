@@ -11,6 +11,7 @@
             <li><a href="/">首页</a></li>
             <#if user?exists && user.type==0>
             <li><a href="/orders/page/purchased">账务</a></li>
+            <li><a href="/orders/page/shoppingcar">购物车</a></li>
             </#if>
             <#if user?exists && user.type==1>
             <li><a href="/commodity/page/create">发布</a></li>

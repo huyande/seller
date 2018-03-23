@@ -45,6 +45,7 @@ public class IndexController {
 
         User localUser = localUserHolder.getLocalUser();
         indexService.indexShowAdaptor(model,localUser,false);
+        model.addAttribute("showType", 0);
         return "index";
     }
 

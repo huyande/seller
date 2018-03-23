@@ -7,13 +7,13 @@
     <div class="m-tab m-tab-fw m-tab-simple f-cb">
         <h2>内容编辑</h2>
     </div>
-    <#if commodity?exists>
+    <#if !commodity?exists>
     <div class="n-result">
         <h3>内容不存在！</h3>
     </div>
     <#else>
     <div class="n-public">
-        <form class="m-form m-form-ht" id="form" method="post" action="/commodity/api/save/${product.id}" onsubmit="return false;" autocomplete="off">
+        <form class="m-form m-form-ht" id="form" method="post" action="/commodity/api/save/${commodity.id}" onsubmit="return false;" autocomplete="off">
             <div class="fmitem">
                 <label class="fmlab">标题：</label>
                 <div class="fmipt">
@@ -51,7 +51,7 @@
                 </div>
             </div>
         </form>
-        <span class="imgpre"><img src="${product.picUrl}" alt="" id="imgpre"></span>
+        <span class="imgpre"><img src="${commodity.picUrl}" alt="" id="imgpre"></span>
     </div>
     </#if>
 </div>

@@ -42,7 +42,7 @@ public class UserService {
     }
 
     public void logout(String ticket) {
-        loginTicketDao.updateStatus(ticket, 1);
+        loginTicketDao.deleteTicket(ticket);
     }
 
     public Map<String, Object> register(String userName, String password, int type) {

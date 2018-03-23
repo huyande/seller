@@ -50,7 +50,7 @@
                     alert("超过文件上传大小限制");
                 }else{
                     var form = new FormData();
-                    form.append('file', file, file.name);
+                    form.append('file', file);
                     form.enctype = "multipart/form-data";
 
                     var xhr = new XMLHttpRequest();

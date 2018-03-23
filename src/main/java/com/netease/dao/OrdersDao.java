@@ -45,7 +45,7 @@ public interface OrdersDao {
      */
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
             " where creator_id=#{creatorId} and pay_status=2" +
-                    "order by pay_time desc"})
+                    " order by pay_time desc"})
     List<Orders> getPayedOrdersListByCreatorId(@Param("creatorId") int creatorId);
     /**
      * 按照订单id获取

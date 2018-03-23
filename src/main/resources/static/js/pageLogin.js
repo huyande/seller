@@ -18,17 +18,37 @@
                     var value2 = password.value;
 					isSubmiting = true;
 					loading.show();
-					ajax({
-						data:{userName:value1,password:value2,rememberMe:rememberMe},
-						url:'/api/login',
-						success:function(result){
-							loading.hide();
-						},
-						error:function(message){
-							loading.result(message||'登录失败');
-							isSubmiting = false;
-						}
-					});
+
+                    var form = new FormData(loginForm);
+                    form.enctype = "multipart/form-data";
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("post", "/api/login", true);
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            loading.hide();
+                            var path = xhr.responseText;
+                            location.href = path;
+                        } else {
+                        	var message = xhr.responseText;
+                            console.log('message'+message);
+                            loading.result(message);
+                            isSubmiting = false;
+                        }
+                    };
+                    xhr.send(form);
+
+					// ajax({
+					// 	data:{userName:value1,password:value2,rememberMe:rememberMe},
+					// 	url:'/api/login',
+					// 	success:function(result){
+					// 		loading.hide();
+					// 	},
+					// 	error:function(message){
+					// 		loading.result(message||'登录失败');
+					// 		isSubmiting = false;
+					// 	}
+					// });
 				}
 			}.bind(this),false);
 			[userName,password].forEach(function(item){

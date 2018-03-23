@@ -1,6 +1,5 @@
 package com.netease.controller;
 
-import com.netease.dao.CommodityForBuyerDao;
 import com.netease.model.Commodity;
 import com.netease.model.CommodityForBuyer;
 import com.netease.model.PerRequestUserHolder;
@@ -15,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.Map;
 
@@ -30,7 +30,7 @@ public class CommodityController {
     CommodityService commodityService;
 
     @Autowired
-    PerRequestUserHolder localUserHoler;
+    PerRequestUserHolder localUserHolder;
 
     @Value(("${STORAGE_AMOUNT}"))
     private int STORAGE_AMOUNT;
@@ -58,7 +58,7 @@ public class CommodityController {
                                @RequestParam(value = "storage", required = false) Integer storage,
                                Model model) {
 
-        User user = localUserHoler.getLocalUser();
+        User user = localUserHolder.getLocalUser();
 
         Commodity commodity = new Commodity();
 
@@ -154,9 +154,14 @@ public class CommodityController {
      */
     @RequestMapping(value = {"/page/show/{commodityId}"}, method = RequestMethod.GET)
     public String showCommodityInfo(Model model, @PathVariable("commodityId") int commodityId) {
-        Map<String, Object> message = commodityService.showCommodityInfo(commodityId);
-        if (message.containsKey("commodity")) {
-            model.addAttribute("commodity", message.get("commodity"));
+
+        Commodity commodity = commodityService.showCommodityInfo(commodityId);
+        if (commodity != null) {
+            if (commodity.getClass() == CommodityForBuyer.class) {
+                model.addAttribute("commodity",(CommodityForBuyer) commodity);
+            }else {
+                model.addAttribute("commodity", commodity);
+            }
         }
         return "commodityDetail";
     }
@@ -169,14 +174,18 @@ public class CommodityController {
     @RequestMapping(value = {"/page/edit/{commodityId}"}, method = {RequestMethod.GET})
     public String showEditPage(Model model, @PathVariable("commodityId") int commodityId) {
 
-        Map<String, Object> message = commodityService.showCommodityInfo(commodityId);
-        if (message.containsKey("commodity")) {
-            model.addAttribute("commodity", message.get("commodity"));
-            return "editCommodity";
-        } else {
-            model.addAttribute("errorMessage", "无法获取商品(id=" + commodityId + ")的信息");
-            return "error";
+
+        Commodity commodity = commodityService.showCommodityInfo(commodityId);
+        if (commodity != null) {
+            if (commodity.getClass() == CommodityForBuyer.class) {
+                model.addAttribute("commodity", (CommodityForBuyer) commodity);
+            } else {
+                System.out.println(commodity.getTitle());
+                model.addAttribute("commodity", commodity);
+            }
         }
+        return "editCommodity";
+
     }
 
     /**
@@ -209,10 +218,12 @@ public class CommodityController {
         return path;
     }
 
-    @RequestMapping(value = {"/api/delete"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public String deleteCommodity(@RequestParam("id") int commodityId) {
+    @ResponseBody
+    @RequestMapping(value = {"/api/delete"}, method = { RequestMethod.POST})
+    public void deleteCommodity(@RequestParam("commodityId") int commodityId,
+                                HttpServletResponse response) {
         commodityService.deleteCommodityById(commodityId);
-        return "/";
+        response.setStatus(200);
     }
 
 //TODO 完成功能时，将错误引导页加上
