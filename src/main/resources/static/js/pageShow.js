@@ -56,7 +56,7 @@ $('add').onclick = function(e){
                     loading.result('添加购物车成功',function(){location.href = '/orders/page/shoppingcar';});
                 } else {
                     // 购买失败，跳转到服务器返回的页面
-                    loading.result( xhr.responseText);
+                    loading.result(xhr.responseText);
                 }
             };
             xhr.send(form);

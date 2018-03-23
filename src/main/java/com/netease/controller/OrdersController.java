@@ -50,22 +50,19 @@ public class OrdersController {
         // 没有登录
         if (user == null) {
             response.setStatus(201);
-            return "/page/login";//引导登录
+            return "没有登录";
         }
         Map<String, String> message =
                 ordersService.addShoppingCarTransaction(commodityId, Integer.valueOf(purchasedQuantity), user.getId());
 
         if (message.containsKey("error")) {
             response.setStatus(201);
-
-            System.out.println(message.get("error"));
             return message.get("error");
         }
 
         // 返回到购买车页面 TODO：任务书上没有要求跳转到哪里
-        System.out.println(user.getName());
         response.setStatus(200);
-        return "/orders/page/shoppingcar";
+        return null;
     }
 
     /**

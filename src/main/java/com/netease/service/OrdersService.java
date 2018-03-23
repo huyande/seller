@@ -89,13 +89,13 @@ public class OrdersService {
             timeout = 120,rollbackFor = Exception.class)
     public Map<String,Object> payMoney(int userId, String ordersListJson) {
         // 解析JSON
-        List<JsonSimpleOrder> ordersList =
-                new ArrayList<JsonSimpleOrder>(
+        List<Orders> ordersList =
+                new ArrayList<Orders>(
                         JSONArray.parseArray(ordersListJson,
-                                JsonSimpleOrder.class));
+                                Orders.class));
 
         Map<String, Object> message = new HashMap<String, Object>();
-        for (JsonSimpleOrder orders : ordersList) {
+        for (Orders orders : ordersList) {
 
             Orders ordersTmp = ordersDao.getOrdersById(orders.getId());
             Commodity commodity = commodityDao.getCommodityById(ordersTmp.getComId());
