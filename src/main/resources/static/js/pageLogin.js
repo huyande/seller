@@ -13,14 +13,18 @@
 			loginForm.addEventListener('submit',function(e){
 				if(!isSubmiting && this.check()){
 					var value1 = userName.value;
-					// TODO 测试方便没有MD5加密，后期修改
-					var value2 = md5(password.value);
-                    console.log(value2);
-                    //var value2 = password.value;
+					// TODO[checked] 测试方便没有MD5加密，后期修改
+					var passwordMD5 = md5(password.value);
 					isSubmiting = true;
 					loading.show();
 
-                    var form = new FormData(loginForm);
+                    var form = new FormData();
+                    console.log(userName.value);
+                    console.log(passwordMD5);
+                    console.log(rememberMe.value);
+                    form.append("userName", userName.value);
+                    form.append("password", passwordMD5);
+                    form.append("rememberMe", rememberMe.value);
                     form.enctype = "multipart/form-data";
 
                     var xhr = new XMLHttpRequest();
@@ -38,18 +42,6 @@
                         }
                     };
                     xhr.send(form);
-
-					// ajax({
-					// 	data:{userName:value1,password:value2,rememberMe:rememberMe},
-					// 	url:'/api/login',
-					// 	success:function(result){
-					// 		loading.hide();
-					// 	},
-					// 	error:function(message){
-					// 		loading.result(message||'登录失败');
-					// 		isSubmiting = false;
-					// 	}
-					// });
 				}
 			}.bind(this),false);
 			[userName,password].forEach(function(item){

@@ -74,5 +74,7 @@ CREATE TABLE `orders` (
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # 注入用户
+# name=buyer password=reyub
 insert into user(name,password,type) values ('buyer','37254660e226ea65ce6f1efd54233424',0);
+# name=seller password=relles
 insert into user(name,password,type) values ('seller','981c57a5cfb0f868e064904b8745766f',1);
