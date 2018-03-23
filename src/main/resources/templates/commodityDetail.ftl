@@ -14,6 +14,11 @@
                 <div class="price">
                     <span class="v-unit">¥</span><span class="v-value">${commodity.perPrice?c}</span>
                 </div>
+                <div class="num">购买数量：
+                    <span id="plusNum" class="lessNum"><a>-</a></span
+                    ><span class="totalNum" id="allNum">1</span>
+                    <span id="addNum" class="moreNum"><a>+</a></span>
+                </div>
                 <div class="oprt f-cb">
                     <#if user?exists && user.type==1>
                         <a href="/commodity/page/edit/${commodity.id}" class="u-btn u-btn-primary">编 辑</a>
@@ -21,12 +26,15 @@
                         <#if user?exists && user.type == 0 && (commodity.purchasedQuantity > 0)>
                             <span class="u-btn u-btn-primary z-dis">已购买</span>
                             <span class="buyprice">购买单价：¥${commodity.perPriceSnapshot?c}</span>
+
                         <#else>
 
                             <#if user?exists && user.type == 0 && (commodity.purchasedQuantity == 0)>
-                                <button class="u-btn u-btn-primary" data-buy="${commodity.id}">购 买</button>
+                                <button class="u-btn u-btn-primary" id="add" data-id="${commodity.id?c}" data-title="北京">
+                                    加入购物车</button>
                             <#else>
-                                <button class="u-btn u-btn-primary" data-buy="1">购 买</button>
+                                <button class="u-btn u-btn-primary" id="add" data-id="1" data-title="北京">
+                                    加入购物车</button>
                             </#if>
                         </#if>
                     </#if>

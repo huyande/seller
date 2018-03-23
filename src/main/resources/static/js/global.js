@@ -52,7 +52,7 @@
         deleteCookie:function(name) {
             if (this.getCookie(name))
                 this.setCookie(name, "", -1);
-        }
+        },
     };
 
     var ajax = function(options) {
@@ -74,7 +74,7 @@
                 }
             }
         }
-        if(options.type === "POST"){
+        if(options.type == "POST"){
             xhr.open("POST", options.url, true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.send(util.serialize(options.data));
@@ -87,7 +87,7 @@
     //layer
     var Layer = function(){
         this.init();
-    };
+    }
     Layer.prototype = {
         init:function(){
             this.isConfirmed = false;
@@ -192,3 +192,4 @@
     w.Layer = Layer;
     w.Loading = Loading;
 })(window,document);
+

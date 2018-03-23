@@ -3,32 +3,11 @@
     if(!settleAccount){
         return;
     }
-    var name = 'products';
-    var products = util.getCookie(name);
     var $ = function(id){
         return document.getElementById(id);
     };
-
-    var str = "<tr>" +
-        "<th>" + '内容名称'  + "</th>"+
-        "<th>" + '数量' + "</th>" +
-        "<th>" + '价格' + "</th>" +
-        "</tr>";
-
-    for(var i = 0; i < products.length; i++){
-        str = str +
-            "<tr>" +
-            "<td>" + products[i].title  + "</td>"+
-            "<td>" +
-            "<span class=\"lessNum\">"+ "-" + "</span>" +
-            "<span class=\"totalNum\" id=\"allNum\">" + products[i].purchasedQuantity + "</span>" +
-            "<span id=\"thisId\">" + products[i].id + "</span>" +
-            "<span class=\"moreNum\">"+ "+" + "</span>" + "</td>" +
-            "<td>" + products[i].perPriceSnapshot + "</td>" +
-            "</tr>";
-    }
-
-    $("newTable").innerHTML = str;
+    // 传入JSON字符串
+    var products = JSON.parse($('jsonText').textContent);
 
     window.onload = function(){
         $('newTable').onclick = function(e){
@@ -96,6 +75,6 @@
         return;
     };
     $('back').onclick = function(){
-        location.href = window.history.back();
+        location.href = '/';
     }
 })(window,document);

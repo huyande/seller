@@ -41,7 +41,7 @@ public class OrdersController {
     @ResponseBody
     @RequestMapping(value = {"/api/addshopcar"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String addShoppingCar(@RequestParam("commodityId") int commodityId,
-                                 @RequestParam(value ="purchasedQuantity",defaultValue = "1") int purchasedQuantity,
+                                 @RequestParam(value ="purchasedQuantity",defaultValue = "1") String purchasedQuantity,
                                  Model model,
                                  HttpServletResponse response) {
 
@@ -53,14 +53,18 @@ public class OrdersController {
             return "/page/login";//引导登录
         }
         Map<String, String> message =
-                ordersService.addShoppingCarTransaction(commodityId, purchasedQuantity, user.getId());
+                ordersService.addShoppingCarTransaction(commodityId, Integer.valueOf(purchasedQuantity), user.getId());
 
         if (message.containsKey("error")) {
             response.setStatus(201);
+
+            System.out.println(message.get("error"));
             return message.get("error");
         }
 
         // 返回到购买车页面 TODO：任务书上没有要求跳转到哪里
+        System.out.println(user.getName());
+        response.setStatus(200);
         return "/orders/page/shoppingcar";
     }
 
@@ -71,13 +75,12 @@ public class OrdersController {
      * TODO 对用户登录状态以及用户类型进行验证
      */
     @RequestMapping(value = {"page/shoppingcar"}, method = {RequestMethod.POST, RequestMethod.GET})
-    public String shoppingCarPage(Model model, HttpServletResponse response) {
+    public String shoppingCarPage(Model model) {
         User user = perRequestUserHolder.getLocalUser();
         List<Orders> ordersList = ordersService.getUnPayOrdersList(user.getId());
 
-        Cookie cookie = new Cookie("products", JSON.toJSONString(ordersList));
-        cookie.setPath("/");
-        response.addCookie(cookie);
+        model.addAttribute("ordersList", ordersList);
+        model.addAttribute("jsonText", JSON.toJSONString(ordersList));
 
         return "shoppingCar";
     }
@@ -87,6 +90,7 @@ public class OrdersController {
      * TODO 对用户登录状态以及用户类型进行验证
      */
     @SuppressWarnings("unchecked")
+    @ResponseBody
     @RequestMapping(value = {"api/pay"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String payMoney(Model model,
                            @RequestBody String jsonData) {
