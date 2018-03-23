@@ -47,6 +47,11 @@ public class OrdersController {
 
         User user = perRequestUserHolder.getLocalUser();
 
+        // 没有登录
+        if (user == null) {
+            response.setStatus(201);
+            return "/page/login";//引导登录
+        }
         Map<String, String> message =
                 ordersService.addShoppingCarTransaction(commodityId, purchasedQuantity, user.getId());
 
@@ -56,8 +61,7 @@ public class OrdersController {
         }
 
         // 返回到购买车页面 TODO：任务书上没有要求跳转到哪里
-        response.setStatus(200);
-        return null;
+        return "/orders/page/shoppingcar";
     }
 
     /**

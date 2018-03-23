@@ -18,12 +18,16 @@
                     <#if user?exists && user.type==1>
                         <a href="/commodity/page/edit/${commodity.id}" class="u-btn u-btn-primary">编 辑</a>
                     <#else>
-                        <#if (commodity.purchasedQuantity > 0)>
+                        <#if user?exists && user.type == 0 && (commodity.purchasedQuantity > 0)>
                             <span class="u-btn u-btn-primary z-dis">已购买</span>
                             <span class="buyprice">购买单价：¥${commodity.perPriceSnapshot?c}</span>
                         <#else>
 
-                            <button class="u-btn u-btn-primary" data-buy="${commodity.id}">购 买</button>
+                            <#if user?exists && user.type == 0 && (commodity.purchasedQuantity == 0)>
+                                <button class="u-btn u-btn-primary" data-buy="${commodity.id}">购 买</button>
+                            <#else>
+                                <button class="u-btn u-btn-primary" data-buy="1">购 买</button>
+                            </#if>
                         </#if>
                     </#if>
                 </div>

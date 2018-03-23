@@ -32,9 +32,11 @@
                     xhr.onload = function () {
                         if (xhr.status === 200) {
                             loading.result('删除成功');
+                        }else {
+                        	loading.result('删除失败');
                             // 跳转到主页
-                            location.href = '/';
-                        }
+                            location.href = xhr.responseText;
+						}
                     };
                     xhr.send(form);
 

@@ -113,6 +113,8 @@ public class CommodityService {
         }
         // 0-消费用户
         if (userType == 0) {
+            System.out.println(
+                    commodityForBuyerDao.getCommodityByBuyerIdAndCommId(user.getId(), commodityId).getTitle());
             return commodityForBuyerDao.getCommodityByBuyerIdAndCommId(user.getId(), commodityId);
         }
 

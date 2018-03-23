@@ -46,7 +46,6 @@ public class IndexService {
             }else {//只显示未购买
                 model.addAttribute("commodities",
                         commodityForBuyerDao.getCommodityListWithTypeOfUnPurchased(user.getId()));
-                System.out.println(commodityForBuyerDao.getCommodityListWithTypeOfUnPurchased(user.getId()).size());
             }
 
         }

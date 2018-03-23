@@ -27,7 +27,8 @@
                                 if (xhr.status === 200) {
                                     loading.result('购买成功',function(){location.href = '/orders/page/shoppingcar';});
                                 } else {
-                                    loading.result(xhr.responseText);
+                                	// 购买失败，跳转到服务器返回的页面
+                                    loading.result("购买失败",function(){location.href = xhr.responseText;});
                                 }
                             };
                             xhr.send(form);
