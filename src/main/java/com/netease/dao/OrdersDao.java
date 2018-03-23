@@ -36,7 +36,7 @@ public interface OrdersDao {
      * 按照用户ID获取未支付订单列表,按照支付时间排序（购物车）
      */
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
-            " where creator_id=#{creatorId} and pay_status=0" +
+            " where creator_id=#{creatorId} and pay_status=0 " +
                     "order by create_time desc"})
     List<Orders> getUnPayOrdersListByCreatorId(@Param("creatorId") int creatorId);
 

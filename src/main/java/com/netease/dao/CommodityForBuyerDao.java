@@ -45,7 +45,7 @@ public interface CommodityForBuyerDao {
 
     @Insert("select * from commodity " +
             "where id not in " +
-            "(distinct select com_id from orders where creator_id = #{buyerId})")
+            "(select distinct com_id from orders where creator_id = #{buyerId})")
     List<Commodity> getCommodityListWithTypeOfUnPurchased(@Param("buyerId") int buyerId);
 
     /**
