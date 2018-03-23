@@ -68,7 +68,7 @@ public interface CommodityDao {
     /**
      * 保存修改的商品内容
      */
-    @Update({"update *",
+    @Update({"update ",TABLE_NAME,
             " set title=#{title},com_abstract=#{comAbstract},pic_url=#{picUrl}," +
                     "detail=#{detail},pic_type=#{picType},per_price=#{perPrice} " +
                     "where id=#{id}"})

@@ -52,11 +52,6 @@ public class IndexService {
         }
         // 1-商家
         else if (userType == 1) {
-            System.out.println(user.getId());
-            List<Commodity> commodityList = commodityDao.getCommodityListByPubId(user.getId());
-            for (Commodity commodity : commodityList) {
-                System.out.println("已售："+commodity.getSoldQuantity());
-            }
             model.addAttribute("commodities",
                     commodityDao.getCommodityListByPubId(user.getId()));
         }

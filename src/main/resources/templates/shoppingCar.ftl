@@ -7,7 +7,6 @@
 <div class="g-doc" id="settleAccount">
 <#assign total = 0>
     <#if !ordersList?exists || !ordersList?has_content>
-        div class="m-tab m-tab-fw m-tab-simple f-cb" >
         <h2>购物车为空</h2>
     <#else>
     <div class="m-tab m-tab-fw m-tab-simple f-cb" >
