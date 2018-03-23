@@ -17,7 +17,6 @@ public interface CommodityDao {
     String TABLE_NAME = "commodity ";
     String INSERT_FIELDS = "com_code,title,com_abstract,per_price,detail," +
             "pic_url,pic_type,publisher_id,pub_time,storage_amount,pub_status ";
-    String SELECT_FIELDS = "id," + INSERT_FIELDS;
 
     /**
      * 添加商品
@@ -31,7 +30,7 @@ public interface CommodityDao {
     /**
      * 获取所有商品列表，并按照发布时间排序 desc
      */
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
+    @Select({"select *", " from ", TABLE_NAME,
             " where pub_status=1 " +
                     "order by pub_time desc" })
     List<Commodity> getAllCommodityListOrderByPubTime();
@@ -40,16 +39,16 @@ public interface CommodityDao {
     /**
      * 按照商品ID获取
      */
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
+    @Select({"select *", " from ", TABLE_NAME,
             " where id=#{id}"})
     Commodity getCommodityById(@Param("id") int id);
 
     /**
      * 按照发布商家id获取已发布商品，并按照发布日期排序
      */
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
+    @Select({"select *", " from ", TABLE_NAME,
             " where publisher_id=#{publisherId} and pub_status=1"})
-    List<Commodity> getCommodityByPubId(@Param("publisherId") int publisherId);
+    List<Commodity> getCommodityListByPubId(@Param("publisherId") int publisherId);
 
     /**
      * 按照ID删除未出售的商品(状态设置为2)
@@ -61,7 +60,7 @@ public interface CommodityDao {
     /**
      * 根据pubID和comCode来查询刚刚添加的商品
      */
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME,
+    @Select({"select *", " from ", TABLE_NAME,
             " where publisher_id=#{publisherId} and com_code=#{comCode}"})
     Commodity getAddedCommodityByPubIdAndComCode(@Param("publisherId") int publisherId,
                                                  @Param("comCode") String comCode);
@@ -69,7 +68,7 @@ public interface CommodityDao {
     /**
      * 保存修改的商品内容
      */
-    @Update({"update ", TABLE_NAME,
+    @Update({"update *",
             " set title=#{title},com_abstract=#{comAbstract},pic_url=#{picUrl}," +
                     "detail=#{detail},pic_type=#{picType},per_price=#{perPrice} " +
                     "where id=#{id}"})

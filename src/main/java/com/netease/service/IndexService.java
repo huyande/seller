@@ -41,6 +41,7 @@ public class IndexService {
         if (userType == 0) {
             // 全部显示
             if (!isShowUnBuy){
+
                 model.addAttribute("commodities",
                         commodityForBuyerDao.getAllCommodityListWithTypeOfPurchased(user.getId()));
             }else {//只显示未购买
@@ -51,12 +52,21 @@ public class IndexService {
         }
         // 1-商家
         else if (userType == 1) {
+            System.out.println(user.getId());
+            List<Commodity> commodityList = commodityDao.getCommodityListByPubId(user.getId());
+            for (Commodity commodity : commodityList) {
+                System.out.println("已售："+commodity.getSoldQuantity());
+            }
             model.addAttribute("commodities",
-                    commodityDao.getCommodityByPubId(user.getId()));
+                    commodityDao.getCommodityListByPubId(user.getId()));
         }
 
         // 2-未登录用户
         else {
+            List<Commodity> commodityList = commodityDao.getAllCommodityListOrderByPubTime();
+            for (Commodity commodity : commodityList) {
+                System.out.println("已售："+commodity.getSoldQuantity());
+            }
             model.addAttribute("commodities", commodityDao.getAllCommodityListOrderByPubTime());
         }
     }

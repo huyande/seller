@@ -115,11 +115,11 @@ public class OrdersService {
                         + "商品名【" + (commodity != null ? commodity.getTitle() : "无") + "】"
                         + "商品编码【" + (commodity != null ? commodity.getComCode() : "无") + "】"
                         + "库存【" + (commodity != null ? commodity.getStorageAmount() : "无") + "】");
-                break;
+                continue;
             }
             // 订单支付完成，支付状态为2
             commodityDao.updateCommodityOrders(orders.getPurchasedQuantity(), commodity.getId());
-            ordersDao.updateStatusAndPayTimeById(userId,2, new Date());
+            ordersDao.updateStatusAndPayTimeById(orders.getId(),2, new Date());
         }
         return message;
     }
