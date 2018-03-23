@@ -26,15 +26,15 @@
                 <td><a href="/commodity/page/show/${x.comId}"><img src="${x.comPicUrl}" alt=""></a></td>
                 <td><h4><a href="/commodity/page/show/${x.comId}">${x.comTitle}</a></h4></td>
                 <td><span class="v-time">${x.payTime?number_to_datetime?string("yyyy-MM-dd HH:mm")}</span></td>
-                <td><span class="v-num">${x.purchasedQuantity}</span></td>
-                <td><span class="v-unit">¥</span><span class="value">${x.perPriceSnapshot}</span></td>
+                <td><span class="v-num">${x.purchasedQuantity?c}</span></td>
+                <td><span class="v-unit">¥</span><span class="value">${x.perPriceSnapshot?c}</span></td>
             </tr>
             </#list>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="3"><div class="total">总计：</div></td>
-                <td><span class="v-unit">¥</span><span class="value">${total}</span></td>
+                <td><span class="v-unit">¥</span><span class="value">${total?c}</span></td>
             </tr>
         </tfoot>
     </table>

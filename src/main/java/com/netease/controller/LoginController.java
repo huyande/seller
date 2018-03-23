@@ -63,7 +63,7 @@ public class LoginController {
                 response.addCookie(cookie);
 
                 // 配合Ajax
-                response.setStatus(200);
+                //response.setStatus(200);
 
                 // 跳转到登录前的页面
                 if (!StringAndFileUtils.isBlank(returnUrl)) {
@@ -73,7 +73,8 @@ public class LoginController {
                 return  "/";
             } else { // 跳转到登录页面
 
-                // 验证失败：重新输入表单内容
+                // 验证失败： 201只是一个能被server处理的有返回值的状态码
+                // 这里是配合前端 验证正确的状态码为200
                 response.setStatus(201);
                 return message.get("message").toString();
             }

@@ -142,7 +142,7 @@ public class CommodityController {
             model.addAttribute("errorMessage", message.get("outOfRange"));
             return "error";
         }
-        return "redirect:/commodity/show/" + commodityId;
+        return "redirect:/commodity/page/show/" + commodityId;
     }
 
     /**
@@ -176,11 +176,11 @@ public class CommodityController {
 
 
         Commodity commodity = commodityService.showCommodityInfo(commodityId);
+
         if (commodity != null) {
             if (commodity.getClass() == CommodityForBuyer.class) {
                 model.addAttribute("commodity", (CommodityForBuyer) commodity);
             } else {
-                System.out.println(commodity.getTitle());
                 model.addAttribute("commodity", commodity);
             }
         }
@@ -218,12 +218,14 @@ public class CommodityController {
         return path;
     }
 
+    /**
+     * 商家在展示页删除商品
+     */
     @ResponseBody
     @RequestMapping(value = {"/api/delete"}, method = { RequestMethod.POST})
     public void deleteCommodity(@RequestParam("commodityId") int commodityId,
                                 HttpServletResponse response) {
         commodityService.deleteCommodityById(commodityId);
-        response.setStatus(200);
     }
 
 //TODO 完成功能时，将错误引导页加上

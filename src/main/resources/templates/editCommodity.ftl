@@ -29,10 +29,22 @@
             </div>
             <div class="fmitem">
                 <label class="fmlab">图片：</label>
-                <div class="fmipt">
-                    <input class="u-ipt ipt" name="image" value="${commodity.picUrl}" placeholder="图片地址"/>
+                <div class="fmipt" id="uploadType">
+                    <input name="pic" type="radio" value="url" checked /> 图片地址
+                    <input name="pic" type="radio" value="file" /> 本地上传
                 </div>
             </div>
+            <div class="fmitem">
+                <label class="fmlab"></label>
+                <div class="fmipt" id="urlUpload">
+                    <input class="u-ipt ipt"  name="image" value="${commodity.picUrl}" placeholder="图片地址"/>
+                </div>
+                <div class="fmipt" id="fileUpload"  style="display:none">
+                    <input class="u-ipt ipt" name="file" type="file" id="fileUp"/>
+                    <button class="u-btn u-btn-primary" id="upload">上传</button>
+                </div>
+            </div>
+
             <div class="fmitem">
                 <label class="fmlab">正文：</label>
                 <div class="fmipt">
@@ -42,7 +54,7 @@
             <div class="fmitem">
                 <label class="fmlab">价格：</label>
                 <div class="fmipt">
-                    <input class="u-ipt price" name="price" value="${commodity.perPrice}"/>元
+                    <input class="u-ipt price" name="price" value="${commodity.perPrice?c}"/>元
                 </div>
             </div>
             <div class="fmitem fmitem-nolab fmitem-btn">

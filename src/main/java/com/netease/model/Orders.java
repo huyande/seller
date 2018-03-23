@@ -9,7 +9,7 @@ import java.util.Date;
 public class Orders {
     private int id;
     private String orderNumber;
-    private int comId;
+    private int comId; //unique
     private String comTitle;
     private String comPicUrl;
     private int purchasedQuantity;

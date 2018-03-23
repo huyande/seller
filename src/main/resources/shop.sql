@@ -68,6 +68,7 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`id`),
   INDEX `create_time_index` (`create_time` ASC) COMMENT '按照订单建立时间降序建立索引',
   INDEX `pay_time_index` (`pay_time` ASC) COMMENT '按照订单支付的时间降序建立索引',
+  UNIQUE (`com_id`) COMMENT '订单中的商品ID是唯一的，已经购买的不能重复购买',
   CONSTRAINT `orders_fk1` FOREIGN KEY (`com_id`) REFERENCES `commodity` (`id`) ON UPDATE CASCADE ON DELETE RESTRICT,
   CONSTRAINT `orders_fk2` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE ON DELETE RESTRICT
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

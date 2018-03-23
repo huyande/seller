@@ -38,7 +38,8 @@
                     <a href="/commodity/page/show/${x.id}" class="link">
                         <div class="img"><img src="${x.picUrl}" alt="${x.title}"></div>
                         <h3>${x.title}</h3>
-                        <div class="price"><span class="v-unit">已售(件)：</span><span class="v-value">${x.soldQuantity}</span></div>
+                        <h3>已售(件)：${x.soldQuantity?c}</h3>
+                        <div class="price"><span class="v-unit">单价(￥)：</span><span class="v-value">${x.perPrice?c}</span></div>
                         <#if user?exists && user.type==0 && (x.purchasedQuantity > 0)><span class="had"><b>已购买</b></span></#if>
                         <#if user?exists && user.type==1 && (x.soldQuantity > 0)><span class="had"><b>已售出</b></span></#if>
                     </a>

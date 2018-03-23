@@ -32,6 +32,8 @@
                     xhr.onload = function () {
                         if (xhr.status === 200) {
                             loading.result('删除成功');
+                            // 跳转到主页
+                            location.href = '/';
                         }
                     };
                     xhr.send(form);

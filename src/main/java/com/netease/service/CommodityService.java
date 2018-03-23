@@ -71,10 +71,6 @@ public class CommodityService {
             // 判断刚才插入的数据是否存在
             if (addedCommodity != null) {
                 message.put("addedCommodityId", addedCommodity.getId());
-
-                //TODO: ComAbstract 内容无法显示
-                logger.warn(addedCommodity.getComAbstract());
-                logger.warn(addedCommodity.getDetail());
             }
         }
         return message;

@@ -51,7 +51,13 @@ public interface OrdersDao {
      * 按照订单id获取
      */
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{id}"})
-    Orders getOrdersById(int id);
+    Orders getOrdersById(@Param("id") int id);
+
+    /**
+     * 按照商品id获取
+     */
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where com_id=#{comId}"})
+    Orders getOrdersByComId(@Param("comId") int comId);
 
     /**
      * 按照用户ID获取未支付订单列表(shopping car购物车),按照创建时间排序

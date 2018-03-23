@@ -40,10 +40,13 @@ public class OrdersService {
 
         Commodity commodity = commodityDao.getCommodityById(commodityId);
 
-        // 购买数量为0或者负数||没有这个商品||库存不足
+        Orders existOrders = ordersDao.getOrdersByComId(commodityId);
+
+        // 购买数量为0或者负数||没有这个商品||库存不足||订单已经存在，不可重复购买
         if (purchasedQuantity <= 0 ||
                 commodity == null ||
-                commodity.getStorageAmount() < purchasedQuantity) {
+                commodity.getStorageAmount() < purchasedQuantity ||
+                existOrders != null) {
 
             message.put("error", "无法购买:购买数量为0或者负数||没有这个商品||库存不足");
             return message;
@@ -97,15 +100,15 @@ public class OrdersService {
             Orders ordersTmp = ordersDao.getOrdersById(orders.getId());
             Commodity commodity = commodityDao.getCommodityById(ordersTmp.getComId());
 
-            // 购买数量为0或者负数||没有这个商品||库存不足
+            // 购买数量为0或者负数||没有这个商品||库存不足||订单已支付或取消
             if (orders.getPurchasedQuantity() <= 0 ||
                     commodity == null ||
-                    commodity.getStorageAmount() < orders.getPurchasedQuantity()) {
+                    commodity.getStorageAmount() < orders.getPurchasedQuantity() ||
+                    ordersTmp.getPayStatus() != 0) {
 
                 if (!message.containsKey("error")) {
                     message.put("error", new ArrayList<String>());
                 }
-
 
                 ArrayList<String> errorList = (ArrayList<String>) message.get("error");
                 errorList.add("购买数量【" + orders.getPurchasedQuantity() + "】"

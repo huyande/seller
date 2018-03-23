@@ -12,7 +12,7 @@
                 <h2>${commodity.title}</h2>
                 <p class="summary">${commodity.comAbstract}</p>
                 <div class="price">
-                    <span class="v-unit">¥</span><span class="v-value">${commodity.perPrice}</span>
+                    <span class="v-unit">¥</span><span class="v-value">${commodity.perPrice?c}</span>
                 </div>
                 <div class="oprt f-cb">
                     <#if user?exists && user.type==1>
@@ -20,7 +20,7 @@
                     <#else>
                         <#if (commodity.purchasedQuantity > 0)>
                             <span class="u-btn u-btn-primary z-dis">已购买</span>
-                            <span class="buyprice">购买单价：¥${commodity.perPriceSnapshot}</span>
+                            <span class="buyprice">购买单价：¥${commodity.perPriceSnapshot?c}</span>
                         <#else>
 
                             <button class="u-btn u-btn-primary" data-buy="${commodity.id}">购 买</button>
