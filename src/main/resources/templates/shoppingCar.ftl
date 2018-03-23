@@ -7,7 +7,9 @@
 <div class="g-doc" id="settleAccount">
 <#assign total = 0>
     <#if !ordersList?exists || !ordersList?has_content>
-        <h2>购物车为空</h2>
+        <div class="n-result">
+            <h3>购物车为空！</h3>
+        </div>
     <#else>
     <div class="m-tab m-tab-fw m-tab-simple f-cb" >
         <h2>已添加到购物车的内容</h2>
