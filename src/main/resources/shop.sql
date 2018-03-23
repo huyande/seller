@@ -73,6 +73,6 @@ CREATE TABLE `orders` (
   CONSTRAINT `orders_fk2` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE ON DELETE RESTRICT
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-
-
+# 注入用户
+insert into user(name,password,type) values ('buyer','37254660e226ea65ce6f1efd54233424',0);
+insert into user(name,password,type) values ('seller','981c57a5cfb0f868e064904b8745766f',1);

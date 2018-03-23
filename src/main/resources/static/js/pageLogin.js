@@ -14,8 +14,9 @@
 				if(!isSubmiting && this.check()){
 					var value1 = userName.value;
 					// TODO 测试方便没有MD5加密，后期修改
-					//var value2 = md5(password.value);
-                    var value2 = password.value;
+					var value2 = md5(password.value);
+                    console.log(value2);
+                    //var value2 = password.value;
 					isSubmiting = true;
 					loading.show();
 
