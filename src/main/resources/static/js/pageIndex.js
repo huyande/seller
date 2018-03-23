@@ -32,6 +32,7 @@
                     xhr.onload = function () {
                         if (xhr.status === 200) {
                             loading.result('删除成功');
+                            location.href = '/';
                         }else {
                         	loading.result('删除失败');
                             // 跳转到主页

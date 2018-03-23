@@ -1,5 +1,3 @@
-(function(w,d,u){
-    var name = 'products';
 
     var $ = function(id){
         return document.getElementById(id);
@@ -31,6 +29,7 @@
                     }
                 };
                 xhr.send(jsonText);
+                xhr.setRequestHeader('Content-Type','application/json');
 
             }.bind(this)
         }).show();
@@ -38,5 +37,4 @@
     };
     $('back').onclick = function(){
         location.href = $('returnUrl').textContent;
-    }
-})(window,document);
+    };

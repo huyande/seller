@@ -1,6 +1,7 @@
 package com.netease.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.netease.model.Orders;
 import com.netease.model.PerRequestUserHolder;
 import com.netease.model.User;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,12 +74,18 @@ public class OrdersController {
      * TODO 对用户登录状态以及用户类型进行验证
      */
     @RequestMapping(value = {"page/shoppingcar"}, method = {RequestMethod.POST, RequestMethod.GET})
-    public String shoppingCarPage(Model model) {
+    public String shoppingCarPage(Model model, HttpServletRequest request) {
         User user = perRequestUserHolder.getLocalUser();
         List<Orders> ordersList = ordersService.getUnPayOrdersList(user.getId());
 
+        // 只序列化两个字段
+        SimplePropertyPreFilter filter =
+                new SimplePropertyPreFilter(Orders.class, "id", "purchasedQuantity");
+
+
         model.addAttribute("ordersList", ordersList);
-        model.addAttribute("jsonText", JSON.toJSONString(ordersList));
+        model.addAttribute("jsonText", JSON.toJSONString(ordersList,filter));
+        model.addAttribute("returnUrl", "/");
 
         return "shoppingCar";
     }
@@ -94,6 +102,7 @@ public class OrdersController {
 
         User user = perRequestUserHolder.getLocalUser();
 
+        System.out.println(jsonData);
         Map<String, Object> message = ordersService.payMoney(user.getId(), jsonData);
         if (message.containsKey("error")) {
             ArrayList<String> errorList = (ArrayList<String>) message.get("error");

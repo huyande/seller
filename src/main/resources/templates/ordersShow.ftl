@@ -15,7 +15,7 @@
     </div>
     <#else>
     <table class="m-table m-table-row n-table g-b3">
-        <colgroup><col class="img"/><col/><col class="time"/><col class="price"/></colgroup>
+        <colgroup><col class="img"><col><col class="time"><col><col class="num"><col><col class="price"><col></colgroup>
         <thead>
             <tr><th>内容图片</th><th>内容名称</th><th>购买时间</th><th>购买数量</th><th>购买单价</th></tr>
         </thead>
@@ -25,7 +25,7 @@
             <tr>
                 <td><a href="/commodity/page/show/${x.comId}"><img src="${x.comPicUrl}" alt=""></a></td>
                 <td><h4><a href="/commodity/page/show/${x.comId}">${x.comTitle}</a></h4></td>
-                <td><span class="v-time">${x.payTime?number_to_datetime?string("yyyy-MM-dd HH:mm")}</span></td>
+                <td><span class="v-time">${x.payTime?datetime}</span></td>
                 <td><span class="v-num">${x.purchasedQuantity?c}</span></td>
                 <td><span class="v-unit">¥</span><span class="value">${x.perPriceSnapshot?c}</span></td>
             </tr>
@@ -33,7 +33,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="3"><div class="total">总计：</div></td>
+                <td colspan="4"><div class="total">总计：</div></td>
                 <td><span class="v-unit">¥</span><span class="value">${total?c}</span></td>
             </tr>
         </tfoot>

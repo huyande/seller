@@ -26,16 +26,14 @@
             <#assign total = total + (orders.perPriceSnapshot * orders.purchasedQuantity)>
             <tr>
                 <td>${orders.comTitle}</td>
-                <td>
-                    <span class="totalNum">${orders.purchasedQuantity?c}</span>
-                </td>
+                <td><span class="totalNum">${orders.purchasedQuantity?c}</span></td>
                 <td>${orders.perPriceSnapshot?c}</td>
             </tr>
         </#list>
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="3"><div class="total">总计：</div></td>
+            <td colspan="2"><div class="total">总计：</div></td>
             <td><span class="v-unit">¥</span><span class="value">${total?c}</span></td>
         </tr>
         </tfoot>
@@ -48,8 +46,7 @@
     </#if>
 </div>
 <#include "/include/footer.ftl">
-<script/#if>
-"text/javascript" src="../js/global.js"></script>
-<script type="text/javascript" src="../js/settleAccount.js"></script>
+<script type="text/javascript" src="/js/global.js"></script>
+<script type="text/javascript" src="/js/settleAccount.js"></script>
 </body>
 </html>

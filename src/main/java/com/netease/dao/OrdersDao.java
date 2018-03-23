@@ -70,7 +70,7 @@ public interface OrdersDao {
     /**
      * 支付订单 更新订单的支付状态以及支付时间
      */
-    @Update({"update ", TABLE_NAME, " set pay_status=#{payStatus}, pay_time=#{payStatus} where id=#{id}"})
+    @Update({"update ", TABLE_NAME, " set pay_status=#{payStatus}, pay_time=#{createTime} where id=#{id}"})
     int updateStatusAndPayTimeById(@Param("id") int id,
                                    @Param("payStatus") int payStatus,
                                    @Param("createTime") Date createTime);
