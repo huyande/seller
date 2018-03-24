@@ -6,12 +6,13 @@ import com.netease.model.Orders;
 import com.netease.model.PerRequestUserHolder;
 import com.netease.model.User;
 import com.netease.service.OrdersService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ import java.util.Map;
 @RequestMapping(value = "orders")
 @Controller
 public class OrdersController {
+    private static final Logger logger = LoggerFactory.getLogger(OrdersController.class);
+
     @Autowired
     PerRequestUserHolder perRequestUserHolder;
 
@@ -34,16 +37,16 @@ public class OrdersController {
 
     /**
      * 用户点击购买按钮提交订单到购物车
-     *
+     * <p>
      * 不可重复购买商品，orders的商品ID是唯一的
-     *
+     * <p>
      * 添加成功后跳转到购物车页面
      * TODO 对用户登录状态以及用户类型进行验证
      */
     @ResponseBody
     @RequestMapping(value = {"/api/addshopcar"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String addShoppingCar(@RequestParam("commodityId") int commodityId,
-                                 @RequestParam(value ="purchasedQuantity",defaultValue = "1") String purchasedQuantity,
+                                 @RequestParam(value = "purchasedQuantity", defaultValue = "1") String purchasedQuantity,
                                  Model model,
                                  HttpServletResponse response) {
 
@@ -70,7 +73,7 @@ public class OrdersController {
     /**
      * 显示购物车的内容
      * 为了配合前端，把数据放在cookie里
-     *
+     * <p>
      * TODO 对用户登录状态以及用户类型进行验证
      */
     @RequestMapping(value = {"page/shoppingcar"}, method = {RequestMethod.POST, RequestMethod.GET})
@@ -84,7 +87,7 @@ public class OrdersController {
 
 
         model.addAttribute("ordersList", ordersList);
-        model.addAttribute("jsonText", JSON.toJSONString(ordersList,filter));
+        model.addAttribute("jsonText", JSON.toJSONString(ordersList, filter));
         model.addAttribute("returnUrl", "/");
 
         return "shoppingCar";
@@ -111,6 +114,7 @@ public class OrdersController {
                 errorMessage.append(error);
                 errorMessage.append("\n");
             }
+            logger.error(errorMessage.toString());
             model.addAttribute("errorMessage", errorMessage.toString());
             return "error";
         }
@@ -119,7 +123,7 @@ public class OrdersController {
 
     /**
      * 账务-已购买的商品列表
-     *
+     * <p>
      * TODO 对用户登录状态以及用户类型进行验证
      */
     @RequestMapping(value = {"/page/purchased"}, method = {RequestMethod.GET})

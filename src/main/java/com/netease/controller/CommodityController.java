@@ -7,6 +7,8 @@ import com.netease.model.User;
 import com.netease.service.CommodityService;
 import com.netease.utils.CodeGeneUtils;
 import com.netease.utils.StringAndFileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = {"/commodity"})
 public class CommodityController {
+    private static final Logger logger = LoggerFactory.getLogger(CommodityController.class);
+
     @Autowired
     CommodityService commodityService;
 
@@ -74,6 +78,7 @@ public class CommodityController {
         if (StringAndFileUtils.isDouble(price))
             commodity.setPerPrice(StringAndFileUtils.dataRruncation(Double.valueOf(price)));
         else {
+            logger.error("price非数值类型数据，后端无法解析");
             model.addAttribute("errorMessage",
                     "Inner Error:price非数值类型数据，后端无法解析");
             return "error";
@@ -91,6 +96,7 @@ public class CommodityController {
         Map<String, Object> message = commodityService.addCommodity(commodity);
         // 范围异常
         if (message.containsKey("outOfRange")) {
+            logger.error((String) message.get("outOfRange"));
             model.addAttribute("errorMessage", (String) message.get("outOfRange"));
             return "error";
         }
@@ -100,6 +106,7 @@ public class CommodityController {
         if (result > 0 && message.containsKey("addedCommodityId"))
             return "redirect:/commodity/page/show/" + message.get("addedCommodityId");
         else {// 可能发生了未知异常
+            logger.error("后端无法完成插入数据或者已添加内容被立即删除");
             model.addAttribute("errorMessage",
                     "Inner Error:后端无法完成插入数据或者已添加内容被立即删除");
             return "error";
@@ -134,11 +141,15 @@ public class CommodityController {
         commodity.setPicType(picType.equals("file") ? 0 : 1);
         if (StringAndFileUtils.isDouble(price))
             commodity.setPerPrice(Float.valueOf(price));
-        else
+        else{
+            logger.error("price非数值类型数据，后端无法解析");
             return "Inner Error:price非数值类型数据，后端无法解析";
+        }
 
         Map<String, String> message = commodityService.updateCommodity(commodity);
         if (message.containsKey("outOfRange")) {
+            logger.error((String) message.get("outOfRange"));
+
             model.addAttribute("errorMessage", message.get("outOfRange"));
             return "error";
         }
