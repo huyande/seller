@@ -148,7 +148,10 @@ public class CommodityService {
 
             // 服务器文件系统图片存储目录(绝对路径)
             String picLocalStorageDir =  System.getProperty("user.home")+
-                    STATIC_STORAGE_MAPPER_PATH.replaceAll("/",File.separator);
+                    StringAndFileUtils.replaceAllCharVersion( //先把默认的分割符去掉
+                            STATIC_STORAGE_MAPPER_PATH, '/',
+                            File.separator.charAt(0));
+                    //STATIC_STORAGE_MAPPER_PATH.replaceAll("/",File.separator);
 
             String picName = CodeGeneUtils.picNameUUIDGen() + "." + fileType;
             String path = picLocalStorageDir + picName;

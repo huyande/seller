@@ -4,6 +4,7 @@ import com.netease.interceptor.BuyerCheckInterceptor;
 import com.netease.interceptor.LoginInterceptor;
 import com.netease.interceptor.SellerCheckInterceptor;
 import com.netease.interceptor.TicketCheckInterceptor;
+import com.netease.utils.StringAndFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class SellerWebConfiguration extends WebMvcConfigurerAdapter {
         onlyAllowBuyerPath.add("/page/notbuy");
         onlyAllowBuyerPath.add("/orders/*");
 
-        ArrayList<String> onlyAllowSellerPath=new ArrayList<String>();
+        ArrayList<String> onlyAllowSellerPath = new ArrayList<String>();
         onlyAllowSellerPath.add("/commodity/api/*");
         onlyAllowSellerPath.add("/commodity/page/edit/*");
         onlyAllowSellerPath.add("/commodity/page/create");
@@ -79,7 +80,7 @@ public class SellerWebConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        String  path = getPath();
+        String path = getPath();
         if (path != null) {
             // **表示匹配以请求静态资源路径STATIC_STORAGE_PATH开头的所有请求映射
             registry.addResourceHandler(STATIC_STORAGE_MAPPER_PATH + "**")
@@ -87,8 +88,8 @@ public class SellerWebConfiguration extends WebMvcConfigurerAdapter {
                     // file表示是系统文件目录，
                     // classpath指的是项目classpath路径
                     .addResourceLocations("file:" + path);
-            logger.info("静态文件路径创建成功 path:"+path);
-        }else
+            logger.info("静态文件路径创建成功 path:" + path);
+        } else
             logger.error("静态路径创建失败");
     }
 
@@ -98,8 +99,10 @@ public class SellerWebConfiguration extends WebMvcConfigurerAdapter {
      */
     private String getPath() {
         String separator = File.separator;
-        String storagePath = System.getProperty("user.home")+
-                STATIC_STORAGE_MAPPER_PATH.replaceAll("/",separator);//先把默认的分割符去掉
+        String storagePath = System.getProperty("user.home") +
+                StringAndFileUtils.replaceAllCharVersion( //先把默认的分割符去掉
+                        STATIC_STORAGE_MAPPER_PATH, '/',
+                        separator.charAt(0));
 
         File dir = new File(storagePath);
         boolean createdDir = true;
@@ -108,9 +111,10 @@ public class SellerWebConfiguration extends WebMvcConfigurerAdapter {
                 dir.delete();
                 createdDir = dir.mkdirs();
             }
-        }else {
+        } else {
             createdDir = dir.mkdirs();
         }
         return createdDir ? storagePath : null;
     }
+
 }

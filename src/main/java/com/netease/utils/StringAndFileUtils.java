@@ -110,4 +110,24 @@ public class StringAndFileUtils {
         DecimalFormat df = new DecimalFormat("#.00");
         return df.format(data);
     }
+
+    /**
+     * 用指定字符替换字符串中匹配的字符,replaceAll的char版本
+     *
+     * 修复replaceAll中含有"\"无法替换的BUG
+     * @param string 原字符串
+     * @param replacedChar 被替换的char
+     * @param replaceChar 新的char
+     */
+
+    public static String replaceAllCharVersion(String string, char replacedChar, char replaceChar) {
+        char[] chars = string.toCharArray();
+
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == replacedChar) {
+                chars[i] = replaceChar;
+            }
+        }
+        return new String(chars);
+    }
 }
